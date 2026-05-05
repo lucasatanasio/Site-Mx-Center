@@ -521,11 +521,30 @@ async function loadProducts() {
   try {
     const r = await fetch(SCRIPT_URL+'?action=getProducts');
     const d = await r.json();
-    products = (d.products||[]).map(p => ({...p, compats: parseCompats(p.compats||'')}));
+    products = (d.products||[]).map(p => {
+      // Support both new format (compats JSON) and old format (brands/models/years)
+      let compats = parseCompats(p.compats||'');
+      if (!compats.length && (p.brands||p.models||p.years)) {
+        // migrate old format: zip brands/models/years into compat sets
+        const brands = (p.brands||'').split('|').filter(Boolean);
+        const models = (p.models||'').split('|').filter(Boolean);
+        const years  = (p.years||'').split('|').filter(Boolean);
+        const len = Math.max(brands.length, models.length, years.length);
+        for (let i=0; i<len; i++) {
+          compats.push({brand: brands[i]||'', model: models[i]||'', year: years[i]||''});
+        }
+      }
+      return {...p, compats};
+    });
   } catch(e) {
     products = JSON.parse(localStorage.getItem('mxProducts')||'[]');
     if (!products.length) products = getSamples();
   }
+  // Reattach photos from localStorage (stored locally due to size limits)
+  products = products.map(p => {
+    const localPhoto = localStorage.getItem('mxPhoto_'+p.cod);
+    return localPhoto ? {...p, photo: localPhoto} : p;
+  });
   document.getElementById('spinnerWrap').classList.remove('on');
   renderProducts(products); buildSelects();
 }
@@ -784,7 +803,9 @@ async function addProduct(){
   const prod={cod,name,cat,price,priceMech:isNaN(priceMech)?price:priceMech,icon:icon||CAT_ICONS[cat]||'⚙️',compats,photo:pPhoto,desc};
   const btn=document.getElementById('btnAdd');btn.textContent='⏳ Salvando...';btn.disabled=true;
   try{
-    await apiPost('addProduct',{...prod,compats:compatsToString(compats)});
+    // Store photo locally (base64 too large for Sheets)
+    if (pPhoto) localStorage.setItem('mxPhoto_'+cod, pPhoto);
+    await apiPost('addProduct',{...prod, photo:'', compats:compatsToString(compats)});
     products.push(prod);saveProd();renderProducts(products);buildSelects();renderAdminTable();
     ['pCod','pName','pPrice','pPriceMech','pIcon','pDesc','pCatCustom'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('pCat').value='';document.getElementById('pCatCustomWrap').style.display='none';
@@ -799,7 +820,7 @@ async function addProduct(){
 
 async function delProduct(cod){
   if(!confirm('Remover este produto?'))return;
-  try{await apiPost('deleteProduct',{cod});products=products.filter(p=>p.cod!==cod);saveProd();renderProducts(products);buildSelects();renderAdminTable();toast('Produto removido.');}
+  try{await apiPost('deleteProduct',{cod});localStorage.removeItem('mxPhoto_'+cod);products=products.filter(p=>p.cod!==cod);saveProd();renderProducts(products);buildSelects();renderAdminTable();toast('Produto removido.');}
   catch(e){toast('Erro ao remover.');}
 }
 
@@ -839,8 +860,11 @@ async function saveEditProd(){
   const updated={cod:newCod,name,cat,price,priceMech:isNaN(priceMech)?price:priceMech,icon:icon||CAT_ICONS[cat]||'⚙️',compats,photo:ePhoto,desc};
   const btn=document.getElementById('btnSaveEditProd');btn.textContent='⏳ Salvando...';btn.disabled=true;
   try{
+    // Handle photo locally
+    if (ePhoto) localStorage.setItem('mxPhoto_'+newCod, ePhoto);
+    if (newCod !== origCod) localStorage.removeItem('mxPhoto_'+origCod);
     await apiPost('deleteProduct',{cod:origCod});
-    await apiPost('addProduct',{...updated,compats:compatsToString(compats)});
+    await apiPost('addProduct',{...updated, photo:'', compats:compatsToString(compats)});
     const idx=products.findIndex(p=>p.cod===origCod);if(idx!==-1)products[idx]=updated;
     saveProd();renderProducts(products);buildSelects();renderAdminTable();
     closeEditProd();toast(`✅ "${name}" atualizado!`);
