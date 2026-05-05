@@ -69,8 +69,7 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
 .card-body{padding:13px}
 .card-cod{font-size:10px;color:var(--silver);font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
 .card-name{font-family:var(--fd);font-size:16px;font-weight:700;line-height:1.2;margin-bottom:5px}
-.card-compat{font-size:11px;color:var(--muted);margin-bottom:9px;line-height:1.6}
-.compat-tag{display:inline-block;background:var(--surface2);border:1px solid var(--brd);border-radius:4px;padding:1px 6px;font-size:10px;margin:1px 2px 1px 0;white-space:nowrap}
+
 .card-price{font-family:var(--fd);font-size:21px;font-weight:900;color:var(--red);margin-bottom:2px}
 .card-price-orig{font-size:14px;color:var(--muted);font-weight:600;margin-bottom:2px;text-decoration:line-through}
 .card-price-mech{font-family:var(--fd);font-size:20px;font-weight:900;color:#fff;background:var(--red);display:inline-block;padding:2px 10px;border-radius:5px;margin-bottom:9px}
@@ -295,10 +294,10 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
         </div>
       </div>
       <div class="row1 fg2"><label>Nome do Produto *</label><input type="text" id="pName" placeholder="Ex: Retentor de Óleo Bengala 33mm"></div>
-      <div class="row3">
+      <div class="row2">
         <div class="fg2"><label>Preço Cliente (R$) *</label><input type="number" id="pPrice" placeholder="89.90" step="0.01" min="0"></div>
         <div class="fg2"><label>Preço Mecânico (R$) *</label><input type="number" id="pPriceMech" placeholder="75.00" step="0.01" min="0"></div>
-        <div class="fg2"><label>Emoji</label><input type="text" id="pIcon" placeholder="Ex: 🔩"></div>
+        <input type="hidden" id="pIcon" value="">
       </div>
       <div class="row1 fg2" id="pCatCustomWrap" style="display:none"><label>Categoria personalizada</label><input type="text" id="pCatCustom" placeholder="Nome da categoria"></div>
 
@@ -377,10 +376,10 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
       </div>
     </div>
     <div class="row1 fg2"><label>Nome *</label><input type="text" id="eName"></div>
-    <div class="row3">
+    <div class="row2">
       <div class="fg2"><label>Preço Cliente (R$) *</label><input type="number" id="ePrice" step="0.01" min="0"></div>
       <div class="fg2"><label>Preço Mecânico (R$) *</label><input type="number" id="ePriceMech" step="0.01" min="0"></div>
-      <div class="fg2"><label>Emoji</label><input type="text" id="eIcon"></div>
+      <input type="hidden" id="eIcon" value="">
     </div>
     <div class="row1 fg2" id="eCatCustomWrap" style="display:none"><label>Categoria personalizada</label><input type="text" id="eCatCustom"></div>
     <div style="border-top:1px solid var(--brd);padding-top:1rem;margin:1rem 0">
@@ -691,13 +690,12 @@ function renderProducts(list){
     const mechLine=mechUser
       ?`<div class="card-price-orig"><s>R$ ${fmt(p.price)}</s></div><div class="card-price-mech">🔧 R$ ${fmt(p.priceMech||0)}</div>`
       :'';
-    const compatHtml=compatDisplay(p.compats);
     return `<div class="card">
       <div class="card-img">${imgHtml}${p.cat?`<span class="cbadge">${p.cat}</span>`:''}</div>
       <div class="card-body">
         <div class="card-cod"># ${p.cod}</div>
         <div class="card-name">${p.name}</div>
-        <div class="card-compat">${compatHtml}</div>
+
         <div class="card-price"${mechUser?' style="display:none"':''}>R$ ${fmt(p.price)}</div>
         ${mechLine}
         <button class="btn-add" onclick="addToCart('${p.cod}')">+ Adicionar</button>
@@ -800,21 +798,22 @@ async function addProduct(){
   if(!cod||!name||isNaN(price)||price<0){toast('Preencha Código, Nome e Preço!');return;}
   if(products.find(p=>p.cod===cod)){toast(`Código "${cod}" já existe!`);return;}
   const compats=compatSets.p;
-  const prod={cod,name,cat,price,priceMech:isNaN(priceMech)?price:priceMech,icon:icon||CAT_ICONS[cat]||'⚙️',compats,photo:pPhoto,desc};
+  const prod={cod,name,cat,price,priceMech:isNaN(priceMech)?price:priceMech,icon:CAT_ICONS[cat]||'⚙️',compats,photo:pPhoto,desc};
   const btn=document.getElementById('btnAdd');btn.textContent='⏳ Salvando...';btn.disabled=true;
   try{
     // Store photo locally (base64 too large for Sheets)
     if (pPhoto) localStorage.setItem('mxPhoto_'+cod, pPhoto);
-    await apiPost('addProduct',{...prod, photo:'', compats:compatsToString(compats)});
+    const res = await apiPost('addProduct',{...prod, photo:'', compats:compatsToString(compats)});
+    if (res.error) { toast('❌ Erro: ' + res.error); return; }
     products.push(prod);saveProd();renderProducts(products);buildSelects();renderAdminTable();
-    ['pCod','pName','pPrice','pPriceMech','pIcon','pDesc','pCatCustom'].forEach(id=>document.getElementById(id).value='');
+    ['pCod','pName','pPrice','pPriceMech','pDesc','pCatCustom'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('pCat').value='';document.getElementById('pCatCustomWrap').style.display='none';
     setCompatSets('p',[]);
     pPhoto='';document.getElementById('pPhotoPrev').style.display='none';
     document.getElementById('pPhotoTxt').textContent='📷 Clique para selecionar uma foto';
     document.getElementById('pPhotoFile').value='';
     toast(`✅ Produto "${name}" cadastrado!`);
-  }catch(e){toast('Erro ao salvar.');}
+  }catch(e){toast('❌ Erro ao salvar: ' + e.message);}
   btn.textContent='+ Cadastrar Produto';btn.disabled=false;
 }
 
@@ -857,7 +856,7 @@ async function saveEditProd(){
   const compats=compatSets.e;
   if(!newCod||!name||isNaN(price)||price<0){toast('Preencha Código, Nome e Preço!');return;}
   if(newCod!==origCod&&products.find(p=>p.cod===newCod)){toast(`Código "${newCod}" já existe!`);return;}
-  const updated={cod:newCod,name,cat,price,priceMech:isNaN(priceMech)?price:priceMech,icon:icon||CAT_ICONS[cat]||'⚙️',compats,photo:ePhoto,desc};
+  const updated={cod:newCod,name,cat,price,priceMech:isNaN(priceMech)?price:priceMech,icon:CAT_ICONS[cat]||'⚙️',compats,photo:ePhoto,desc};
   const btn=document.getElementById('btnSaveEditProd');btn.textContent='⏳ Salvando...';btn.disabled=true;
   try{
     // Handle photo locally
@@ -868,7 +867,7 @@ async function saveEditProd(){
     const idx=products.findIndex(p=>p.cod===origCod);if(idx!==-1)products[idx]=updated;
     saveProd();renderProducts(products);buildSelects();renderAdminTable();
     closeEditProd();toast(`✅ "${name}" atualizado!`);
-  }catch(e){toast('Erro ao salvar.');}
+  }catch(e){toast('❌ Erro ao salvar: ' + e.message);}
   btn.textContent='💾 Salvar';btn.disabled=false;
 }
 
@@ -1002,7 +1001,7 @@ async function apiPost(action,data){
 // ── UTILS ─────────────────────────────────────────────────────
 function fmt(v){return parseFloat(v||0).toFixed(2).replace('.',',');}
 function saveProd(){localStorage.setItem('mxProducts',JSON.stringify(products));}
-function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),3200);}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');const dur=msg.startsWith('❌')?6000:3200;setTimeout(()=>t.classList.remove('on'),dur);}
 
 boot();
 </script>
