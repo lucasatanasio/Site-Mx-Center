@@ -309,8 +309,8 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
           <div class="compat-sets-wrap">
             <div id="pCompatList"><p style="color:var(--muted);font-size:13px;text-align:center;padding:8px">Nenhuma compatibilidade adicionada</p></div>
             <div class="compat-add-row">
-              <div class="fg2"><label>Marca</label><input type="text" id="pCSBrand" placeholder="Ex: Honda"></div>
-              <div class="fg2"><label>Modelo</label><input type="text" id="pCSModel" placeholder="Ex: CRF 250"></div>
+              <div class="fg2"><label>Marca</label><input type="text" id="pCSBrand" placeholder="Ex: Honda" autocomplete="off"></div>
+              <div class="fg2"><label>Modelo</label><input type="text" id="pCSModel" placeholder="Ex: CRF 250" autocomplete="off"></div>
               <div class="fg2"><label>Ano Inicial</label><input type="number" id="pCSYearFrom" placeholder="2018" min="1900" max="2100" style="width:100%"></div>
               <div class="fg2"><label>Ano Final</label><input type="number" id="pCSYearTo" placeholder="2025" min="1900" max="2100" onkeydown="if(event.key==='Enter'){event.preventDefault();addCompatSet('p')}" style="width:100%"></div>
               <button class="btn-cs-add" onclick="addCompatSet('p')">+ Add</button>
@@ -388,8 +388,8 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
         <div class="compat-sets-wrap">
           <div id="eCompatList"></div>
           <div class="compat-add-row">
-            <div class="fg2"><label>Marca</label><input type="text" id="eCSBrand" placeholder="Ex: Honda"></div>
-            <div class="fg2"><label>Modelo</label><input type="text" id="eCSModel" placeholder="Ex: CRF 250"></div>
+            <div class="fg2"><label>Marca</label><input type="text" id="eCSBrand" placeholder="Ex: Honda" autocomplete="off"></div>
+            <div class="fg2"><label>Modelo</label><input type="text" id="eCSModel" placeholder="Ex: CRF 250" autocomplete="off"></div>
             <div class="fg2"><label>Ano Inicial</label><input type="number" id="eCSYearFrom" placeholder="2018" min="1900" max="2100" style="width:100%"></div>
             <div class="fg2"><label>Ano Final</label><input type="number" id="eCSYearTo" placeholder="2025" min="1900" max="2100" onkeydown="if(event.key==='Enter'){event.preventDefault();addCompatSet('e')}" style="width:100%"></div>
             <button class="btn-cs-add" onclick="addCompatSet('e')">+ Add</button>
@@ -563,7 +563,16 @@ function getSamples() {
 // Stored as JSON string in Sheets: '[{"brand":"Honda","model":"CRF 250","year":"2018-2025"},...]'
 function parseCompats(str) {
   if (!str) return [];
-  try { return JSON.parse(str); } catch(e) { return []; }
+  try {
+    // Decode HTML entities that Sheets sometimes encodes (&quot; etc)
+    const decoded = str
+      .replace(/&quot;/g, '"')
+      .replace(/&amp;/g, '&')
+      .replace(/&#39;/g, "'")
+      .replace(/&lt;/g, '<')
+      .replace(/&gt;/g, '>');
+    return JSON.parse(decoded);
+  } catch(e) { return []; }
 }
 function compatsToString(arr) { return JSON.stringify(arr); }
 
@@ -598,15 +607,19 @@ function renderCompatSets(scope) {
     container.innerHTML = '<p style="color:var(--muted);font-size:13px;text-align:center;padding:8px">Nenhuma compatibilidade adicionada</p>';
     return;
   }
-  container.innerHTML = compatSets[scope].map((cs, i) => `
-    <div class="compat-set-item">
-      <div class="cs-info">
-        ${cs.brand ? `<span class="cs-brand">${cs.brand}</span>` : ''}
-        ${cs.model ? ` · <span class="cs-model">${cs.model}</span>` : ''}
-        ${cs.year  ? ` · <span class="cs-year">${cs.year}</span>`  : ''}
-      </div>
-      <button class="btn-cs-del" onclick="removeCompatSet('${scope}',${i})">✕</button>
-    </div>`).join('');
+  container.innerHTML = compatSets[scope].map((cs, i) => {
+    const brand = cs.brand||'';
+    const model = cs.model||'';
+    const year  = cs.year||'';
+    return '<div class="compat-set-item">' +
+      '<div class="cs-info">' +
+        (brand ? '<span class="cs-brand">'+brand+'</span>' : '') +
+        (model ? ' &middot; <span class="cs-model">'+model+'</span>' : '') +
+        (year  ? ' &middot; <span class="cs-year">'+year+'</span>'  : '') +
+      '</div>' +
+      '<button class="btn-cs-del" onclick="removeCompatSet(''+scope+'','+i+')">✕</button>' +
+    '</div>';
+  }).join('');
 }
 
 function setCompatSets(scope, arr) {
