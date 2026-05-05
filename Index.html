@@ -7,36 +7,31 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;900&family=Barlow:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
-  --red:#CC1F1F;--red2:#a01515;--black:#0f0f0f;
-  --silver:#9a9a9a;--fd:'Barlow Condensed',sans-serif;--fb:'Barlow',sans-serif;
+  --red:#CC1F1F;--red2:#a01515;--black:#0f0f0f;--silver:#9a9a9a;
+  --fd:'Barlow Condensed',sans-serif;--fb:'Barlow',sans-serif;
   --bg:#f2f2f2;--surface:#fff;--surface2:#e8e8e8;
   --text:#0f0f0f;--muted:#666;--inp:#fff;--brd:#d8d8d8;
 }
-[data-theme=dark]{
-  --bg:#0f0f0f;--surface:#1a1a1a;--surface2:#242424;
-  --text:#f0f0f0;--muted:#888;--inp:#1e1e1e;--brd:#2e2e2e;
-}
+[data-theme=dark]{--bg:#0f0f0f;--surface:#1a1a1a;--surface2:#242424;--text:#f0f0f0;--muted:#888;--inp:#1e1e1e;--brd:#2e2e2e;}
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 body{font-family:var(--fb);background:var(--bg);color:var(--text);min-height:100vh;transition:background .25s,color .25s}
 button{cursor:pointer;font-family:var(--fb)}
-
 /* NAV */
 nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:500}
 .logo img{height:44px;width:auto;display:block}
-.nav-r{display:flex;align-items:center;gap:10px}
+.nav-r{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
 .btn-theme{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);color:#aaa;padding:6px 12px;border-radius:5px;font-size:13px;transition:all .2s}
 .btn-theme:hover{background:rgba(255,255,255,.14);color:#fff}
 .btn-cart{background:var(--red);color:#fff;border:none;padding:8px 16px;border-radius:5px;font-family:var(--fd);font-size:15px;font-weight:700;display:flex;align-items:center;gap:6px;transition:background .2s}
 .btn-cart:hover{background:var(--red2)}
 .badge{background:#fff;color:var(--red);border-radius:50%;width:19px;height:19px;font-size:11px;font-weight:700;display:inline-flex;align-items:center;justify-content:center}
-.mech-chip{background:rgba(255,200,0,.15);border:1px solid rgba(255,200,0,.3);color:#ffc800;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;display:flex;align-items:center;gap:6px}
-.btn-logout{background:none;border:none;color:#ffc800;font-size:13px;padding:2px 4px;opacity:.8;transition:opacity .2s}
+.mech-chip{background:rgba(255,200,0,.12);border:1px solid rgba(255,200,0,.3);color:#ffc800;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;display:none;align-items:center;gap:6px}
+.mech-chip.show{display:flex}
+.btn-logout{background:none;border:none;color:#ffc800;font-size:14px;padding:0 2px;opacity:.8;transition:opacity .2s}
 .btn-logout:hover{opacity:1}
-
 /* PAGES */
 .page{display:none;padding:1.5rem;max-width:1280px;margin:0 auto}
 .page.on{display:block}
-
 /* HERO */
 .hero{background:var(--black);border-left:4px solid var(--red);border-radius:10px;padding:2.2rem 2rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;margin-bottom:1.5rem}
 .hero h1{font-family:var(--fd);font-size:42px;font-weight:900;color:#fff;line-height:1;text-transform:uppercase}
@@ -44,7 +39,10 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
 .hero p{color:var(--silver);font-size:14px;margin-top:6px}
 .btn-hero{background:var(--red);color:#fff;border:none;padding:11px 26px;border-radius:6px;font-family:var(--fd);font-size:16px;font-weight:700;text-transform:uppercase;white-space:nowrap;transition:background .2s}
 .btn-hero:hover{background:var(--red2)}
-
+/* MECH BANNER */
+.mech-banner{background:linear-gradient(135deg,#1a1400,#2a2000);border:1px solid rgba(255,200,0,.2);border-radius:10px;padding:.9rem 1.4rem;margin-bottom:1.5rem;display:none;align-items:center;gap:10px}
+.mech-banner.show{display:flex}
+.mech-banner span{color:#ffc800;font-size:13px;font-weight:600}
 /* FILTER */
 .filter-box{background:var(--surface);border:1px solid var(--brd);border-radius:10px;padding:1.1rem 1.4rem;margin-bottom:1.5rem}
 .filter-title{font-family:var(--fd);font-size:15px;font-weight:700;text-transform:uppercase;color:var(--red);margin-bottom:.9rem}
@@ -57,7 +55,6 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
 .filter-actions{margin-top:10px}
 .btn-clear{background:none;border:1px solid var(--brd);color:var(--muted);padding:7px 16px;border-radius:5px;font-size:13px;transition:all .2s}
 .btn-clear:hover{border-color:var(--red);color:var(--red)}
-
 /* GRID */
 .sec-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem}
 .sec-title{font-family:var(--fd);font-size:22px;font-weight:900;text-transform:uppercase;border-left:4px solid var(--red);padding-left:10px}
@@ -71,22 +68,17 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
 .cbadge{position:absolute;top:8px;left:8px;background:var(--red);color:#fff;font-family:var(--fd);font-size:10px;font-weight:700;padding:2px 7px;border-radius:3px;text-transform:uppercase;z-index:2}
 .card-body{padding:13px}
 .card-cod{font-size:10px;color:var(--silver);font-weight:600;text-transform:uppercase;letter-spacing:.4px;margin-bottom:3px}
-.card-name{font-family:var(--fd);font-size:16px;font-weight:700;line-height:1.2;margin-bottom:4px}
-.card-compat{font-size:11px;color:var(--muted);margin-bottom:9px;min-height:14px;line-height:1.4}
+.card-name{font-family:var(--fd);font-size:16px;font-weight:700;line-height:1.2;margin-bottom:5px}
+.card-compat{font-size:11px;color:var(--muted);margin-bottom:9px;line-height:1.6}
+.compat-tag{display:inline-block;background:var(--surface2);border:1px solid var(--brd);border-radius:4px;padding:1px 6px;font-size:10px;margin:1px 2px 1px 0;white-space:nowrap}
 .card-price{font-family:var(--fd);font-size:21px;font-weight:900;color:var(--red);margin-bottom:2px}
-.card-price-mech{font-size:12px;color:#ffc800;font-weight:600;margin-bottom:9px;display:none}
-.card-price-mech.show{display:block}
+.card-price-orig{font-size:14px;color:var(--muted);font-weight:600;margin-bottom:2px;text-decoration:line-through}
+.card-price-mech{font-family:var(--fd);font-size:20px;font-weight:900;color:#fff;background:var(--red);display:inline-block;padding:2px 10px;border-radius:5px;margin-bottom:9px}
 .btn-add{width:100%;background:var(--red);color:#fff;border:none;padding:8px;border-radius:5px;font-family:var(--fd);font-size:14px;font-weight:700;text-transform:uppercase;transition:background .2s}
 .btn-add:hover{background:var(--red2)}
 .empty{text-align:center;padding:4rem 1rem;color:var(--muted);grid-column:1/-1}
 .empty .ei{font-size:56px;margin-bottom:.8rem}
 .empty h3{font-family:var(--fd);font-size:20px;font-weight:700;margin-bottom:6px}
-
-/* MECH BANNER */
-.mech-banner{background:linear-gradient(135deg,#1a1400,#2a2000);border:1px solid rgba(255,200,0,.25);border-radius:10px;padding:1rem 1.4rem;margin-bottom:1.5rem;display:none;align-items:center;gap:12px}
-.mech-banner.show{display:flex}
-.mech-banner span{color:#ffc800;font-size:13px;font-weight:600}
-
 /* CART */
 .overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:600}
 .overlay.on{display:block}
@@ -102,7 +94,6 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
 .ci-info{flex:1}
 .ci-name{font-weight:600;font-size:13px;line-height:1.3}
 .ci-cod{font-size:11px;color:var(--silver);margin:2px 0}
-.ci-compat{font-size:11px;color:var(--muted)}
 .ci-price{color:var(--red);font-weight:700;font-size:14px;margin-top:3px}
 .ci-qty{display:flex;align-items:center;gap:7px;margin-top:5px}
 .qb{background:var(--surface2);border:1px solid var(--brd);color:var(--text);width:25px;height:25px;border-radius:4px;font-size:14px;display:flex;align-items:center;justify-content:center;transition:all .2s}
@@ -120,16 +111,21 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
 .btn-wa{width:100%;background:#25D366;color:#fff;border:none;padding:12px;border-radius:6px;font-family:var(--fd);font-size:17px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:7px;text-transform:uppercase;transition:background .2s}
 .btn-wa:hover{background:#1da852}
 .cart-empty-msg{text-align:center;color:var(--muted);margin-top:2.5rem}
-
-/* LOGIN MODAL */
+/* MODALS */
 .modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:800;align-items:center;justify-content:center}
 .modal-bg.on{display:flex}
-.modal{background:var(--surface);border-radius:12px;padding:2rem;width:100%;max-width:420px;position:relative}
+.modal{background:var(--surface);border-radius:12px;padding:2rem;width:100%;max-width:440px;position:relative}
+.modal-lg{max-width:720px;max-height:92vh;overflow-y:auto}
 .modal-hd{margin-bottom:1.4rem;text-align:center}
 .modal-hd h3{font-family:var(--fd);font-size:24px;font-weight:900;text-transform:uppercase;margin-bottom:4px}
 .modal-hd p{font-size:13px;color:var(--muted)}
-.modal-close-abs{position:absolute;top:12px;right:16px;background:none;border:none;font-size:22px;color:var(--muted);transition:color .2s}
-.modal-close-abs:hover{color:var(--red)}
+.modal-hd2{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.3rem;padding-bottom:.9rem;border-bottom:2px solid var(--red)}
+.modal-hd2 h3{font-family:var(--fd);font-size:21px;font-weight:900;text-transform:uppercase}
+.modal-close{position:absolute;top:12px;right:16px;background:none;border:none;font-size:22px;color:var(--muted);transition:color .2s}
+.modal-close:hover{color:var(--red)}
+.modal-close2{background:none;border:none;font-size:22px;color:var(--text);transition:color .2s}
+.modal-close2:hover{color:var(--red)}
+.modal-ft{display:flex;gap:9px;justify-content:flex-end;margin-top:1.3rem}
 .mfg{display:flex;flex-direction:column;gap:5px;margin-bottom:12px}
 .mfg label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.4px;color:var(--muted)}
 .mfg input{padding:10px 12px;border:1px solid var(--brd);border-radius:6px;background:var(--inp);color:var(--text);font-family:var(--fb);font-size:14px;outline:none;transition:border-color .2s}
@@ -137,9 +133,8 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
 .btn-primary{width:100%;background:var(--red);color:#fff;border:none;padding:11px;border-radius:6px;font-family:var(--fd);font-size:17px;font-weight:700;text-transform:uppercase;transition:background .2s;margin-top:4px}
 .btn-primary:hover{background:var(--red2)}
 .modal-err{color:var(--red);font-size:13px;text-align:center;margin-top:8px;min-height:18px}
-
 /* ADMIN */
-#adminPanel{display:none;padding:1.5rem;max-width:1000px;margin:0 auto}
+#adminPanel{display:none;padding:1.5rem;max-width:1060px;margin:0 auto}
 .admin-tabs{display:flex;gap:0;margin-bottom:1.5rem;border-bottom:2px solid var(--brd)}
 .atab{background:none;border:none;padding:10px 22px;font-family:var(--fd);font-size:16px;font-weight:700;text-transform:uppercase;color:var(--muted);border-bottom:3px solid transparent;margin-bottom:-2px;transition:all .2s}
 .atab.on{color:var(--red);border-bottom-color:var(--red)}
@@ -154,16 +149,21 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:11px;margin-bottom:11px}
 .row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:11px;margin-bottom:11px}
 .row1{margin-bottom:11px}
-.full{grid-column:1/-1}
-.tag-area{display:flex;flex-wrap:wrap;gap:5px;min-height:26px;margin-bottom:5px}
-.tag{display:inline-flex;align-items:center;gap:3px;background:var(--surface2);border:1px solid var(--brd);border-radius:20px;padding:2px 10px;font-size:12px;font-weight:600;color:var(--text)}
-.tag button{background:none;border:none;color:var(--muted);font-size:15px;line-height:1;padding:0 0 0 2px;transition:color .2s}
-.tag button:hover{color:var(--red)}
-.tag-row{display:flex;gap:6px}
-.tag-row input{flex:1;padding:6px 10px;border:1px solid var(--brd);border-radius:6px;background:var(--inp);color:var(--text);font-size:13px;outline:none;transition:border-color .2s}
-.tag-row input:focus{border-color:var(--red)}
-.btn-tadd{background:var(--red);color:#fff;border:none;padding:6px 13px;border-radius:6px;font-size:13px;font-weight:700;white-space:nowrap;transition:background .2s}
-.btn-tadd:hover{background:var(--red2)}
+/* COMPAT SETS */
+.compat-sets-wrap{border:1px solid var(--brd);border-radius:8px;padding:12px;background:var(--surface2);margin-top:5px}
+.compat-set-item{background:var(--surface);border:1px solid var(--brd);border-radius:6px;padding:10px 12px;margin-bottom:8px;display:flex;align-items:center;gap:10px}
+.compat-set-item:last-child{margin-bottom:0}
+.cs-info{flex:1;font-size:13px;line-height:1.5}
+.cs-brand{font-weight:700;color:var(--text)}
+.cs-model{color:var(--muted)}
+.cs-year{color:var(--red);font-weight:600}
+.btn-cs-del{background:none;border:none;color:var(--muted);font-size:18px;transition:color .2s;padding:2px 4px}
+.btn-cs-del:hover{color:var(--red)}
+.compat-add-row{display:grid;grid-template-columns:1.2fr 1.2fr 0.7fr 0.7fr auto;gap:8px;margin-top:10px;align-items:end}
+.compat-add-row .fg2{margin:0}
+.btn-cs-add{background:var(--red);color:#fff;border:none;padding:8px 14px;border-radius:6px;font-size:13px;font-weight:700;white-space:nowrap;height:36px;align-self:end;transition:background .2s}
+.btn-cs-add:hover{background:var(--red2)}
+/* PHOTO */
 .photo-wrap{position:relative}
 .photo-wrap input[type=file]{position:absolute;inset:0;opacity:0;width:100%;height:100%;cursor:pointer}
 .photo-box{border:2px dashed var(--brd);border-radius:8px;padding:14px;text-align:center;background:var(--inp);transition:border-color .2s;cursor:pointer}
@@ -171,6 +171,7 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
 .photo-prev{width:100%;max-height:130px;object-fit:contain;border-radius:6px;display:none;margin-top:7px}
 .btn-save-prod{background:var(--red);color:#fff;border:none;padding:10px 26px;border-radius:6px;font-family:var(--fd);font-size:16px;font-weight:700;text-transform:uppercase;transition:background .2s;margin-top:11px}
 .btn-save-prod:hover{background:var(--red2)}
+/* TABLE */
 .atable{width:100%;border-collapse:collapse;font-size:13px}
 .atable th{text-align:left;padding:7px 9px;border-bottom:2px solid var(--brd);font-size:11px;text-transform:uppercase;color:var(--muted);letter-spacing:.4px}
 .atable td{padding:9px;border-bottom:1px solid var(--brd);vertical-align:middle}
@@ -180,32 +181,19 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
 .btn-del{background:none;border:1px solid var(--brd);color:var(--muted);padding:4px 9px;border-radius:4px;font-size:12px;transition:all .2s}
 .btn-del:hover{background:var(--red);color:#fff;border-color:var(--red)}
 .td-act{display:flex;gap:4px;align-items:center}
-
-/* EDIT MODAL */
-.emodal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:800;align-items:center;justify-content:center}
-.emodal-bg.on{display:flex}
-.emodal{background:var(--surface);border-radius:12px;padding:1.8rem;width:100%;max-width:680px;max-height:90vh;overflow-y:auto}
-.emodal-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:1.3rem;padding-bottom:.9rem;border-bottom:2px solid var(--red)}
-.emodal-hd h3{font-family:var(--fd);font-size:21px;font-weight:900;text-transform:uppercase}
-.emodal-ft{display:flex;gap:9px;justify-content:flex-end;margin-top:1.3rem}
+/* BUTTONS */
 .btn-cancel{background:none;border:1px solid var(--brd);color:var(--muted);padding:9px 22px;border-radius:6px;font-size:14px;transition:all .2s}
 .btn-cancel:hover{border-color:var(--red);color:var(--red)}
 .btn-save{background:var(--red);color:#fff;border:none;padding:9px 26px;border-radius:6px;font-family:var(--fd);font-size:16px;font-weight:700;text-transform:uppercase;transition:background .2s}
 .btn-save:hover{background:var(--red2)}
-
 /* TOAST */
+.spinner-wrap{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:900;align-items:center;justify-content:center}
+.spinner-wrap.on{display:flex}
+.spinner{width:56px;height:56px;border:6px solid rgba(204,31,31,.2);border-top-color:var(--red);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 .toast{position:fixed;bottom:1.8rem;right:1.8rem;background:var(--black);color:#fff;padding:11px 18px;border-radius:8px;border-left:4px solid var(--red);font-size:14px;font-weight:600;max-width:290px;transform:translateY(80px);opacity:0;transition:all .28s;z-index:1000}
 .toast.on{transform:translateY(0);opacity:1}
-
-@media(max-width:600px){
-  nav{padding:0 1rem}
-  .hero h1{font-size:28px}
-  .hero{padding:1.4rem}
-  .filter-grid{grid-template-columns:1fr 1fr}
-  .grid{grid-template-columns:repeat(auto-fill,minmax(155px,1fr))}
-  .cart{width:100%}
-  .row2,.row3{grid-template-columns:1fr}
-}
+@media(max-width:640px){nav{padding:0 1rem}.hero h1{font-size:28px}.hero{padding:1.4rem}.filter-grid{grid-template-columns:1fr 1fr}.grid{grid-template-columns:repeat(auto-fill,minmax(155px,1fr))}.cart{width:100%}.row2,.row3{grid-template-columns:1fr}.compat-add-row{grid-template-columns:1fr 1fr;}.compat-add-row .btn-cs-add{grid-column:1/-1}.compat-add-row .fg2:nth-child(3),.compat-add-row .fg2:nth-child(4){grid-column:span 1}}
 </style>
 </head>
 <body data-theme="light">
@@ -213,7 +201,7 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
 <nav>
   <div class="logo"><img id="logoEl" src="" alt="Mx Center"></div>
   <div class="nav-r">
-    <div id="mechChip" class="mech-chip" style="display:none">
+    <div id="mechChip" class="mech-chip">
       🔧 <span id="mechName"></span>
       <button class="btn-logout" onclick="logoutMech()" title="Sair">✕</button>
     </div>
@@ -226,18 +214,10 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
 <!-- LOJA -->
 <div class="page on" id="pgLoja">
   <div class="hero">
-    <div>
-      <h1>Suspensão &amp;<br><span>Amortecedor</span></h1>
-      <p>Peças originais e de alta performance para sua moto</p>
-    </div>
+    <div><h1>Suspensão &amp;<br><span>Amortecedor</span></h1><p>Peças originais e de alta performance para sua moto</p></div>
     <button class="btn-hero" onclick="document.getElementById('shopAnchor').scrollIntoView({behavior:'smooth'})">Ver Peças ↓</button>
   </div>
-
-  <div id="mechBanner" class="mech-banner">
-    <span>⭐</span>
-    <span id="mechBannerTxt"></span>
-  </div>
-
+  <div id="mechBanner" class="mech-banner"><span>⭐</span><span id="mechBannerTxt"></span></div>
   <div class="filter-box" id="shopAnchor">
     <div class="filter-title">🔍 Filtrar Peças</div>
     <div class="filter-grid">
@@ -255,7 +235,6 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
     </div>
     <div class="filter-actions"><button class="btn-clear" onclick="clearFilters()">✕ Limpar filtros</button></div>
   </div>
-
   <div class="sec-head">
     <div class="sec-title">Peças Disponíveis</div>
     <div class="count" id="resCount"></div>
@@ -284,12 +263,9 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
 <!-- LOGIN MODAL -->
 <div class="modal-bg" id="loginModal">
   <div class="modal">
-    <button class="modal-close-abs" onclick="closeLoginModal()">✕</button>
-    <div class="modal-hd">
-      <h3>🔧 Área do Mecânico</h3>
-      <p>Entre com seu login e senha cadastrados</p>
-    </div>
-    <div class="mfg"><label>Login</label><input type="text" id="loginInput" placeholder="Seu usuario" onkeydown="if(event.key==='Enter')doLogin()"></div>
+    <button class="modal-close" onclick="closeLoginModal()">✕</button>
+    <div class="modal-hd"><h3>🔧 Área do Mecânico</h3><p>Entre com seu login e senha</p></div>
+    <div class="mfg"><label>Login</label><input type="text" id="loginInput" placeholder="Ex: Bruno629" onkeydown="if(event.key==='Enter')doLogin()"></div>
     <div class="mfg"><label>Senha</label><input type="password" id="passInput" placeholder="Sua senha" onkeydown="if(event.key==='Enter')doLogin()"></div>
     <button class="btn-primary" id="btnLogin" onclick="doLogin()">Entrar</button>
     <div class="modal-err" id="loginErr"></div>
@@ -304,13 +280,13 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
     <button class="atab" onclick="switchTab('tabMechs',this)">🔧 Mecânicos</button>
   </div>
 
-  <!-- TAB PRODUTOS -->
+  <!-- PRODUTOS -->
   <div class="atab-panel on" id="tabProds">
     <div class="acard">
       <div class="row2">
         <div class="fg2"><label>Código *</label><input type="text" id="pCod" placeholder="Ex: MX-001"></div>
         <div class="fg2"><label>Categoria *</label>
-          <select id="pCat" onchange="showCustomCat('pCatCustom',this)">
+          <select id="pCat" onchange="showCustomCat('p')">
             <option value="">— Selecione —</option>
             <option>Suspensão Dianteira</option><option>Amortecedor</option><option>Retentores</option>
             <option>Bucha Externa</option><option>Bucha Interna</option><option>Diafragma</option>
@@ -325,23 +301,25 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
         <div class="fg2"><label>Emoji</label><input type="text" id="pIcon" placeholder="Ex: 🔩"></div>
       </div>
       <div class="row1 fg2" id="pCatCustomWrap" style="display:none"><label>Categoria personalizada</label><input type="text" id="pCatCustom" placeholder="Nome da categoria"></div>
+
       <div style="border-top:1px solid var(--brd);padding-top:1rem;margin:1rem 0">
-        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin-bottom:10px">Compatibilidade — múltiplos valores permitidos</div>
-        <div class="row3">
-          <div class="fg2"><label>Marcas</label>
-            <div class="tag-area" id="pBrandArea"></div>
-            <div class="tag-row"><input type="text" id="pBrandInp" placeholder="Ex: Honda" onkeydown="if(event.key==='Enter'){event.preventDefault();addTag('pBrand')}"><button class="btn-tadd" onclick="addTag('pBrand')">+ Add</button></div>
-          </div>
-          <div class="fg2"><label>Modelos</label>
-            <div class="tag-area" id="pModelArea"></div>
-            <div class="tag-row"><input type="text" id="pModelInp" placeholder="Ex: CG 160" onkeydown="if(event.key==='Enter'){event.preventDefault();addTag('pModel')}"><button class="btn-tadd" onclick="addTag('pModel')">+ Add</button></div>
-          </div>
-          <div class="fg2"><label>Anos</label>
-            <div class="tag-area" id="pYearArea"></div>
-            <div class="tag-row"><input type="text" id="pYearInp" placeholder="Ex: 2020 ou 2018-2023" onkeydown="if(event.key==='Enter'){event.preventDefault();addTag('pYear')}"><button class="btn-tadd" onclick="addTag('pYear')">+ Add</button></div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin-bottom:10px">
+          Compatibilidade — adicione um conjunto por vez (marca + modelo + ano)
+        </div>
+        <div class="fg2">
+          <div class="compat-sets-wrap">
+            <div id="pCompatList"><p style="color:var(--muted);font-size:13px;text-align:center;padding:8px">Nenhuma compatibilidade adicionada</p></div>
+            <div class="compat-add-row">
+              <div class="fg2"><label>Marca</label><input type="text" id="pCSBrand" placeholder="Ex: Honda"></div>
+              <div class="fg2"><label>Modelo</label><input type="text" id="pCSModel" placeholder="Ex: CRF 250"></div>
+              <div class="fg2"><label>Ano Inicial</label><input type="number" id="pCSYearFrom" placeholder="2018" min="1900" max="2100" style="width:100%"></div>
+              <div class="fg2"><label>Ano Final</label><input type="number" id="pCSYearTo" placeholder="2025" min="1900" max="2100" onkeydown="if(event.key==='Enter'){event.preventDefault();addCompatSet('p')}" style="width:100%"></div>
+              <button class="btn-cs-add" onclick="addCompatSet('p')">+ Add</button>
+            </div>
           </div>
         </div>
       </div>
+
       <div class="row1 fg2">
         <label>Foto do Produto</label>
         <div class="photo-wrap">
@@ -356,18 +334,18 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
     <h3 class="sec-title" style="font-size:19px;margin-bottom:1rem">Produtos Cadastrados</h3>
     <div class="acard" style="padding:0;overflow:auto">
       <table class="atable">
-        <thead><tr><th>Foto</th><th>Cód.</th><th>Nome</th><th>Categoria</th><th>Compatibilidade</th><th>Preço Cliente</th><th>Preço Mecânico</th><th></th></tr></thead>
+        <thead><tr><th>Foto</th><th>Cód.</th><th>Nome</th><th>Cat.</th><th>Compatibilidade</th><th>Cliente</th><th>Mecânico</th><th></th></tr></thead>
         <tbody id="atBody"></tbody>
       </table>
     </div>
   </div>
 
-  <!-- TAB MECÂNICOS -->
+  <!-- MECÂNICOS -->
   <div class="atab-panel" id="tabMechs">
     <div class="acard">
       <div class="row3">
         <div class="fg2"><label>Login *</label><input type="text" id="mLogin" placeholder="Ex: Bruno629"></div>
-        <div class="fg2"><label>Senha *</label><input type="password" id="mPass" placeholder="Senha do mecânico"></div>
+        <div class="fg2"><label>Senha *</label><input type="password" id="mPass" placeholder="Senha"></div>
         <div class="fg2"><label>Nome (opcional)</label><input type="text" id="mName" placeholder="Ex: Bruno Silva"></div>
       </div>
       <button class="btn-save-prod" id="btnAddMech" onclick="addMechanic()">+ Cadastrar Mecânico</button>
@@ -383,14 +361,14 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
 </div>
 
 <!-- EDIT PRODUCT MODAL -->
-<div class="emodal-bg" id="editModal">
-  <div class="emodal">
-    <div class="emodal-hd"><h3>✏️ Editar Produto</h3><button class="btn-x" style="color:var(--text)" onclick="closeEdit()">✕</button></div>
+<div class="modal-bg" id="editProdModal">
+  <div class="modal modal-lg">
+    <div class="modal-hd2"><h3>✏️ Editar Produto</h3><button class="modal-close2" onclick="closeEditProd()">✕</button></div>
     <input type="hidden" id="eCodOrig">
     <div class="row2">
       <div class="fg2"><label>Código *</label><input type="text" id="eCod"></div>
       <div class="fg2"><label>Categoria *</label>
-        <select id="eCat" onchange="showCustomCat('eCatCustom',this)">
+        <select id="eCat" onchange="showCustomCat('e')">
           <option value="">— Selecione —</option>
           <option>Suspensão Dianteira</option><option>Amortecedor</option><option>Retentores</option>
           <option>Bucha Externa</option><option>Bucha Interna</option><option>Diafragma</option>
@@ -407,18 +385,16 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
     <div class="row1 fg2" id="eCatCustomWrap" style="display:none"><label>Categoria personalizada</label><input type="text" id="eCatCustom"></div>
     <div style="border-top:1px solid var(--brd);padding-top:1rem;margin:1rem 0">
       <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:var(--muted);margin-bottom:10px">Compatibilidade</div>
-      <div class="row3">
-        <div class="fg2"><label>Marcas</label>
-          <div class="tag-area" id="eBrandArea"></div>
-          <div class="tag-row"><input type="text" id="eBrandInp" placeholder="Ex: Honda" onkeydown="if(event.key==='Enter'){event.preventDefault();addTag('eBrand')}"><button class="btn-tadd" onclick="addTag('eBrand')">+ Add</button></div>
-        </div>
-        <div class="fg2"><label>Modelos</label>
-          <div class="tag-area" id="eModelArea"></div>
-          <div class="tag-row"><input type="text" id="eModelInp" placeholder="Ex: CG 160" onkeydown="if(event.key==='Enter'){event.preventDefault();addTag('eModel')}"><button class="btn-tadd" onclick="addTag('eModel')">+ Add</button></div>
-        </div>
-        <div class="fg2"><label>Anos</label>
-          <div class="tag-area" id="eYearArea"></div>
-          <div class="tag-row"><input type="text" id="eYearInp" placeholder="Ex: 2020 ou 2018-2023" onkeydown="if(event.key==='Enter'){event.preventDefault();addTag('eYear')}"><button class="btn-tadd" onclick="addTag('eYear')">+ Add</button></div>
+      <div class="fg2">
+        <div class="compat-sets-wrap">
+          <div id="eCompatList"></div>
+          <div class="compat-add-row">
+            <div class="fg2"><label>Marca</label><input type="text" id="eCSBrand" placeholder="Ex: Honda"></div>
+            <div class="fg2"><label>Modelo</label><input type="text" id="eCSModel" placeholder="Ex: CRF 250"></div>
+            <div class="fg2"><label>Ano Inicial</label><input type="number" id="eCSYearFrom" placeholder="2018" min="1900" max="2100" style="width:100%"></div>
+            <div class="fg2"><label>Ano Final</label><input type="number" id="eCSYearTo" placeholder="2025" min="1900" max="2100" onkeydown="if(event.key==='Enter'){event.preventDefault();addCompatSet('e')}" style="width:100%"></div>
+            <button class="btn-cs-add" onclick="addCompatSet('e')">+ Add</button>
+          </div>
         </div>
       </div>
     </div>
@@ -430,18 +406,36 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
       </div>
     </div>
     <div class="row1 fg2"><label>Descrição</label><textarea id="eDesc"></textarea></div>
-    <div class="emodal-ft">
-      <button class="btn-cancel" onclick="closeEdit()">Cancelar</button>
-      <button class="btn-save" id="btnSaveEdit" onclick="saveEdit()">💾 Salvar</button>
+    <div class="modal-ft">
+      <button class="btn-cancel" onclick="closeEditProd()">Cancelar</button>
+      <button class="btn-save" id="btnSaveEditProd" onclick="saveEditProd()">💾 Salvar</button>
     </div>
   </div>
 </div>
 
+<!-- EDIT MECHANIC MODAL -->
+<div class="modal-bg" id="editMechModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeEditMech()">✕</button>
+    <div class="modal-hd"><h3>✏️ Editar Mecânico</h3><p>Deixe a senha em branco para não alterar</p></div>
+    <input type="hidden" id="eMechLoginOrig">
+    <div class="mfg"><label>Login *</label><input type="text" id="eMechLogin" placeholder="Ex: Bruno629"></div>
+    <div class="mfg"><label>Nova Senha (opcional)</label><input type="password" id="eMechPass" placeholder="Em branco = manter atual"></div>
+    <div class="mfg"><label>Nome</label><input type="text" id="eMechName" placeholder="Ex: Bruno Silva"></div>
+    <div class="modal-ft" style="margin-top:1rem">
+      <button class="btn-cancel" onclick="closeEditMech()">Cancelar</button>
+      <button class="btn-save" id="btnSaveEditMech" onclick="saveEditMech()">💾 Salvar</button>
+    </div>
+    <div class="modal-err" id="editMechErr"></div>
+  </div>
+</div>
+
+<div class="spinner-wrap" id="spinnerWrap"><div class="spinner"></div></div>
 <div class="toast" id="toast"></div>
 
 <script>
 // ── CONFIG ──────────────────────────────────────────────────
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzSXhE4csxvK9S1iib4hkHGTLUMDl4NvgwJ7hZMx-f-zFSbwZ6IGll2t2Hz_TLo5Smc/exec';
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyHNDQo6aj295gnIZMwmSnEwYWb0E0IYFGSyoLYYZCqttlA9CHy5zkkcKduFT7HAzyQ/exec';
 const WA_NUM     = '5547988146567';
 const CAT_ICONS  = {'Suspensão Dianteira':'🏍️','Amortecedor':'⚙️','Retentores':'🔩','Bucha Externa':'🔧','Bucha Interna':'🛠️','Diafragma':'💎'};
 const FIXED_CATS = ['Suspensão Dianteira','Amortecedor','Retentores','Bucha Externa','Bucha Interna','Diafragma'];
@@ -450,9 +444,10 @@ const FIXED_CATS = ['Suspensão Dianteira','Amortecedor','Retentores','Bucha Ext
 let products = [];
 let cart     = [];
 let dark     = false;
-let mechUser = null; // { login, name } when logged in as mechanic
+let mechUser = null;
 
-const tags = { pBrand:[], pModel:[], pYear:[], eBrand:[], eModel:[], eYear:[] };
+// compatSets: { p: [{brand,model,year}], e: [{brand,model,year}] }
+const compatSets = { p: [], e: [] };
 let pPhoto = '', ePhoto = '';
 
 // ── LOGO ────────────────────────────────────────────────────
@@ -461,16 +456,15 @@ document.getElementById('logoEl').src = 'data:image/jpeg;base64,/9j/4AAQSkZJRgAB
 // ── BOOT ────────────────────────────────────────────────────
 async function boot() {
   dark = localStorage.getItem('mxTheme') === 'dark';
-  if (dark) { document.body.setAttribute('data-theme','dark'); document.getElementById('themeBtn').textContent = '☀️ Claro'; }
+  if (dark) { document.body.setAttribute('data-theme','dark'); document.getElementById('themeBtn').textContent='☀️ Claro'; }
   cart = JSON.parse(localStorage.getItem('mxCart') || '[]');
-  const savedMech = JSON.parse(sessionStorage.getItem('mxMech') || 'null');
-  if (savedMech) { mechUser = savedMech; updateMechUI(); }
+  const saved = JSON.parse(sessionStorage.getItem('mxMech') || 'null');
+  if (saved) { mechUser = saved; updateMechUI(); }
   renderCart();
   checkAdmin();
   await loadProducts();
 }
 
-// ── THEME ────────────────────────────────────────────────────
 function toggleTheme() {
   dark = !dark;
   document.body.setAttribute('data-theme', dark ? 'dark' : 'light');
@@ -480,176 +474,245 @@ function toggleTheme() {
 
 // ── MECHANIC LOGIN ────────────────────────────────────────────
 function openLoginModal()  { document.getElementById('loginModal').classList.add('on'); document.getElementById('loginInput').focus(); }
-function closeLoginModal() { document.getElementById('loginModal').classList.remove('on'); document.getElementById('loginErr').textContent = ''; }
+function closeLoginModal() { document.getElementById('loginModal').classList.remove('on'); document.getElementById('loginErr').textContent=''; }
 
 async function doLogin() {
   const login = document.getElementById('loginInput').value.trim();
   const pass  = document.getElementById('passInput').value;
-  if (!login || !pass) { document.getElementById('loginErr').textContent = 'Preencha login e senha.'; return; }
+  if (!login||!pass) { document.getElementById('loginErr').textContent='Preencha login e senha.'; return; }
   const btn = document.getElementById('btnLogin');
-  btn.textContent = '⏳ Entrando...'; btn.disabled = true;
+  btn.textContent='⏳ Entrando...'; btn.disabled=true;
   try {
-    const r = await apiPost('loginMechanic', { login, password: pass });
+    const r = await apiPost('loginMechanic',{login,password:pass});
     if (r.success) {
-      mechUser = { login, name: r.name || login };
+      mechUser = {login, name: r.name||login};
       sessionStorage.setItem('mxMech', JSON.stringify(mechUser));
-      updateMechUI();
-      closeLoginModal();
-      document.getElementById('loginInput').value = '';
-      document.getElementById('passInput').value = '';
+      updateMechUI(); closeLoginModal();
+      document.getElementById('loginInput').value=''; document.getElementById('passInput').value='';
       toast(`✅ Bem-vindo, ${mechUser.name}!`);
-      renderProducts(products);
-      renderCart();
-    } else {
-      document.getElementById('loginErr').textContent = r.error || 'Login ou senha incorretos.';
-    }
-  } catch(e) { document.getElementById('loginErr').textContent = 'Erro de conexão.'; }
-  btn.textContent = 'Entrar'; btn.disabled = false;
+      renderProducts(products); renderCart();
+    } else { document.getElementById('loginErr').textContent = r.error||'Login ou senha incorretos.'; }
+  } catch(e) { document.getElementById('loginErr').textContent='Erro de conexão.'; }
+  btn.textContent='Entrar'; btn.disabled=false;
 }
 
 function logoutMech() {
-  mechUser = null;
-  sessionStorage.removeItem('mxMech');
-  updateMechUI();
-  renderProducts(products);
-  renderCart();
+  mechUser=null; sessionStorage.removeItem('mxMech');
+  updateMechUI(); renderProducts(products); renderCart();
   toast('Você saiu da área do mecânico.');
 }
 
 function updateMechUI() {
-  const chip      = document.getElementById('mechChip');
-  const btnLogin  = document.getElementById('btnMechLogin');
-  const banner    = document.getElementById('mechBanner');
-  const bannerTxt = document.getElementById('mechBannerTxt');
+  const chip=document.getElementById('mechChip');
+  const btnL=document.getElementById('btnMechLogin');
+  const banner=document.getElementById('mechBanner');
   if (mechUser) {
-    chip.style.display = 'flex';
-    document.getElementById('mechName').textContent = mechUser.name;
-    btnLogin.style.display = 'none';
-    banner.classList.add('show');
-    bannerTxt.textContent = `Olá, ${mechUser.name}! Você está vendo os preços de mecânico.`;
+    chip.classList.add('show'); document.getElementById('mechName').textContent=mechUser.name;
+    btnL.style.display='none';
+    banner.classList.add('show'); document.getElementById('mechBannerTxt').textContent=`Olá, ${mechUser.name}! Você está vendo os preços de mecânico.`;
   } else {
-    chip.style.display = 'none';
-    btnLogin.style.display = '';
-    banner.classList.remove('show');
+    chip.classList.remove('show'); btnL.style.display=''; banner.classList.remove('show');
   }
 }
 
 // ── PRODUCTS ─────────────────────────────────────────────────
 async function loadProducts() {
+  document.getElementById('spinnerWrap').classList.add('on');
   try {
-    const r = await fetch(SCRIPT_URL + '?action=getProducts');
+    const r = await fetch(SCRIPT_URL+'?action=getProducts');
     const d = await r.json();
-    products = d.products || [];
+    products = (d.products||[]).map(p => ({...p, compats: parseCompats(p.compats||'')}));
   } catch(e) {
-    products = JSON.parse(localStorage.getItem('mxProducts') || '[]');
+    products = JSON.parse(localStorage.getItem('mxProducts')||'[]');
     if (!products.length) products = getSamples();
   }
-  renderProducts(products);
-  buildSelects();
+  document.getElementById('spinnerWrap').classList.remove('on');
+  renderProducts(products); buildSelects();
 }
 
 function getSamples() {
   return [
-    {cod:'MX-001',name:'Retentor de Óleo Bengala 33mm',cat:'Retentores',price:48.90,priceMech:38.00,icon:'🔩',brands:'Honda|Yamaha',models:'CG 160|Titan 160',years:'2016-2023',photo:'',desc:''},
-    {cod:'MX-002',name:'Amortecedor Traseiro Original',cat:'Amortecedor',price:389.00,priceMech:320.00,icon:'⚙️',brands:'Yamaha',models:'Fazer 250',years:'2018-2024',photo:'',desc:''},
-    {cod:'MX-003',name:'Bucha Bengala Externa 35mm',cat:'Bucha Externa',price:32.50,priceMech:25.00,icon:'🔧',brands:'Honda',models:'Titan 160',years:'2015-2023',photo:'',desc:''},
+    {cod:'MX-001',name:'Retentor de Óleo Bengala 33mm',cat:'Retentores',price:48.90,priceMech:38.00,icon:'🔩',
+     compats:[{brand:'Honda',model:'CRF 250',year:'2018-2025'},{brand:'Honda',model:'XR 200',year:'2004-2010'}],photo:'',desc:''},
+    {cod:'MX-002',name:'Amortecedor Traseiro Original',cat:'Amortecedor',price:389.00,priceMech:320.00,icon:'⚙️',
+     compats:[{brand:'Yamaha',model:'Fazer 250',year:'2018-2024'}],photo:'',desc:''},
+    {cod:'MX-003',name:'Suspensão Dianteira Completa',cat:'Suspensão Dianteira',price:720.00,priceMech:580.00,icon:'🏍️',
+     compats:[{brand:'Kawasaki',model:'Z400',year:'2019-2024'},{brand:'Honda',model:'CB 500F',year:'2019-2024'}],photo:'',desc:''},
   ];
 }
 
-function renderProducts(list) {
-  const grid = document.getElementById('prodGrid');
-  const cnt  = document.getElementById('resCount');
-  cnt.textContent = list.length ? `${list.length} produto${list.length>1?'s':''} encontrado${list.length>1?'s':''}` : '';
-  if (!list.length) { grid.innerHTML = '<div class="empty"><div class="ei">🔍</div><h3>Nenhuma peça encontrada</h3><p>Tente ajustar os filtros</p></div>'; return; }
-  grid.innerHTML = list.map(p => {
-    const icon   = p.icon || CAT_ICONS[p.cat] || '⚙️';
-    const compat = compatStr(p);
-    const imgHtml = p.photo ? `<img src="${p.photo}" alt="${p.name}" loading="lazy">` : `<span class="em">${icon}</span>`;
-    const mechPriceHtml = mechUser
-      ? `<div class="card-price-mech show">🔧 Mecânico: R$ ${fmt(p.priceMech || 0)}</div>`
-      : `<div class="card-price-mech"></div>`;
+// ── COMPAT SETS ───────────────────────────────────────────────
+// Stored as JSON string in Sheets: '[{"brand":"Honda","model":"CRF 250","year":"2018-2025"},...]'
+function parseCompats(str) {
+  if (!str) return [];
+  try { return JSON.parse(str); } catch(e) { return []; }
+}
+function compatsToString(arr) { return JSON.stringify(arr); }
+
+function addCompatSet(scope) {
+  const brand    = document.getElementById(scope+'CSBrand').value.trim();
+  const model    = document.getElementById(scope+'CSModel').value.trim();
+  const yearFrom = document.getElementById(scope+'CSYearFrom').value.trim();
+  const yearTo   = document.getElementById(scope+'CSYearTo').value.trim();
+  let year = '';
+  if (yearFrom && yearTo && yearFrom !== yearTo) year = yearFrom + '-' + yearTo;
+  else if (yearFrom && yearTo && yearFrom === yearTo) year = yearFrom;
+  else if (yearFrom) year = yearFrom + '-';
+  else if (yearTo) year = '-' + yearTo;
+  if (!brand && !model && !year) { toast('Preencha ao menos um campo de compatibilidade.'); return; }
+  compatSets[scope].push({brand, model, year});
+  renderCompatSets(scope);
+  document.getElementById(scope+'CSBrand').value='';
+  document.getElementById(scope+'CSModel').value='';
+  document.getElementById(scope+'CSYearFrom').value='';
+  document.getElementById(scope+'CSYearTo').value='';
+  document.getElementById(scope+'CSBrand').focus();
+}
+
+function removeCompatSet(scope, idx) {
+  compatSets[scope].splice(idx, 1);
+  renderCompatSets(scope);
+}
+
+function renderCompatSets(scope) {
+  const container = document.getElementById(scope+'CompatList');
+  if (!compatSets[scope].length) {
+    container.innerHTML = '<p style="color:var(--muted);font-size:13px;text-align:center;padding:8px">Nenhuma compatibilidade adicionada</p>';
+    return;
+  }
+  container.innerHTML = compatSets[scope].map((cs, i) => `
+    <div class="compat-set-item">
+      <div class="cs-info">
+        ${cs.brand ? `<span class="cs-brand">${cs.brand}</span>` : ''}
+        ${cs.model ? ` · <span class="cs-model">${cs.model}</span>` : ''}
+        ${cs.year  ? ` · <span class="cs-year">${cs.year}</span>`  : ''}
+      </div>
+      <button class="btn-cs-del" onclick="removeCompatSet('${scope}',${i})">✕</button>
+    </div>`).join('');
+}
+
+function setCompatSets(scope, arr) {
+  compatSets[scope] = arr || [];
+  renderCompatSets(scope);
+}
+
+// Display compats nicely on product card
+function compatDisplay(compats) {
+  if (!compats || !compats.length) return '';
+  return compats.map(cs => {
+    const parts = [cs.brand, cs.model, cs.year].filter(Boolean);
+    return `<span class="compat-tag">${parts.join(' ')}</span>`;
+  }).join('');
+}
+
+// For WhatsApp text
+function compatText(compats) {
+  if (!compats || !compats.length) return '';
+  return compats.map(cs => [cs.brand,cs.model,cs.year].filter(Boolean).join(' ')).join(', ');
+}
+
+// ── SELECTS ───────────────────────────────────────────────────
+function buildSelects() {
+  const brands = [...new Set(products.flatMap(p=>(p.compats||[]).map(c=>c.brand).filter(Boolean)))].sort();
+  const models = [...new Set(products.flatMap(p=>(p.compats||[]).map(c=>c.model).filter(Boolean)))].sort();
+  const years  = [...new Set(products.flatMap(p=>(p.compats||[]).flatMap(c=>expandYears(c.year))))].sort((a,b)=>b-a);
+  const cats   = [...new Set(products.map(p=>p.cat).filter(Boolean))].sort();
+  const catSel = document.getElementById('fCat'); const curCat=catSel.value;
+  catSel.innerHTML='<option value="">Todas</option>';
+  [...new Set([...FIXED_CATS,...cats])].forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;if(c===curCat)o.selected=true;catSel.appendChild(o);});
+  fillSel('fBrand',brands,'Todas as marcas');
+  fillSel('fModel',models,'Todos os modelos');
+  fillSel('fYear',years.map(String),'Todos os anos');
+}
+function fillSel(id,opts,ph){const s=document.getElementById(id),cur=s.value;s.innerHTML=`<option value="">${ph}</option>`;opts.forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;if(v===cur)o.selected=true;s.appendChild(o);});}
+function expandYears(str){
+  if(!str)return[];const out=[];
+  const m=str.match(/(\d{4})-(\d{4})/);
+  if(m){for(let y=+m[1];y<=+m[2];y++)out.push(y);}
+  else{const n=str.match(/\d{4}/g);if(n)n.forEach(x=>out.push(+x));}
+  return out;
+}
+
+// ── FILTERS ────────────────────────────────────────────────────
+function applyFilters(){
+  const srch=document.getElementById('fSearch').value.toLowerCase().trim().normalize('NFD').replace(/[̀-ͯ]/g,'');
+  const cat=document.getElementById('fCat').value;
+  const brand=document.getElementById('fBrand').value;
+  const model=document.getElementById('fModel').value;
+  const year=document.getElementById('fYear').value;
+  renderProducts(products.filter(p=>{
+    const pNorm=s=>s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,'');
+    if(srch&&!pNorm(p.name).includes(srch)&&!pNorm(p.cod).includes(srch))return false;
+    if(cat&&p.cat!==cat)return false;
+    if(brand||model||year){
+      // must have a compat set matching all specified filters
+      const match=(p.compats||[]).some(cs=>{
+        if(brand&&cs.brand!==brand)return false;
+        if(model&&cs.model!==model)return false;
+        if(year&&!expandYears(cs.year).includes(+year))return false;
+        return true;
+      });
+      if(!match)return false;
+    }
+    return true;
+  }));
+}
+function clearFilters(){['fSearch','fCat','fBrand','fModel','fYear'].forEach(id=>document.getElementById(id).value='');renderProducts(products);}
+
+// ── RENDER ────────────────────────────────────────────────────
+function renderProducts(list){
+  const grid=document.getElementById('prodGrid');
+  const cnt=document.getElementById('resCount');
+  cnt.textContent=list.length?`${list.length} produto${list.length>1?'s':''} encontrado${list.length>1?'s':''}` :'';
+  if(!list.length){grid.innerHTML='<div class="empty"><div class="ei">🔍</div><h3>Nenhuma peça encontrada</h3><p>Tente ajustar os filtros</p></div>';return;}
+  grid.innerHTML=list.map(p=>{
+    const icon=p.icon||CAT_ICONS[p.cat]||'⚙️';
+    const imgHtml=p.photo?`<img src="${p.photo}" alt="${p.name}" loading="lazy">`:`<span class="em">${icon}</span>`;
+    const usedPrice=mechUser?(p.priceMech||p.price):p.price;
+    const mechLine=mechUser
+      ?`<div class="card-price-orig"><s>R$ ${fmt(p.price)}</s></div><div class="card-price-mech">🔧 R$ ${fmt(p.priceMech||0)}</div>`
+      :'';
+    const compatHtml=compatDisplay(p.compats);
     return `<div class="card">
       <div class="card-img">${imgHtml}${p.cat?`<span class="cbadge">${p.cat}</span>`:''}</div>
       <div class="card-body">
         <div class="card-cod"># ${p.cod}</div>
         <div class="card-name">${p.name}</div>
-        <div class="card-compat">${compat}</div>
-        <div class="card-price">R$ ${fmt(mechUser ? (p.priceMech||p.price) : p.price)}</div>
-        ${mechPriceHtml}
+        <div class="card-compat">${compatHtml}</div>
+        <div class="card-price"${mechUser?' style="display:none"':''}>R$ ${fmt(p.price)}</div>
+        ${mechLine}
         <button class="btn-add" onclick="addToCart('${p.cod}')">+ Adicionar</button>
       </div>
     </div>`;
   }).join('');
 }
 
-// ── SELECTS ───────────────────────────────────────────────────
-function buildSelects() {
-  const brands = [...new Set(products.flatMap(p => splitPipe(p.brands)))].sort();
-  const models = [...new Set(products.flatMap(p => splitPipe(p.models)))].sort();
-  const years  = [...new Set(products.flatMap(p => parseYearsAll(p.years)))].sort((a,b)=>b-a);
-  const cats   = [...new Set(products.map(p=>p.cat).filter(Boolean))].sort();
-  const catSel = document.getElementById('fCat');
-  const curCat = catSel.value;
-  catSel.innerHTML = '<option value="">Todas</option>';
-  [...new Set([...FIXED_CATS,...cats])].forEach(c => { const o=document.createElement('option'); o.value=c; o.textContent=c; if(c===curCat)o.selected=true; catSel.appendChild(o); });
-  fillSel('fBrand', brands, 'Todas as marcas');
-  fillSel('fModel', models, 'Todos os modelos');
-  fillSel('fYear',  years.map(String), 'Todos os anos');
-}
-function fillSel(id, opts, ph) {
-  const s=document.getElementById(id), cur=s.value;
-  s.innerHTML=`<option value="">${ph}</option>`;
-  opts.forEach(v=>{const o=document.createElement('option');o.value=v;o.textContent=v;if(v===cur)o.selected=true;s.appendChild(o);});
-}
-
-// ── FILTERS ────────────────────────────────────────────────────
-function applyFilters() {
-  const srch=document.getElementById('fSearch').value.toLowerCase().trim();
-  const cat=document.getElementById('fCat').value;
-  const brand=document.getElementById('fBrand').value;
-  const model=document.getElementById('fModel').value;
-  const year=document.getElementById('fYear').value;
-  renderProducts(products.filter(p => {
-    if (srch && !p.name.toLowerCase().includes(srch) && !p.cod.toLowerCase().includes(srch)) return false;
-    if (cat && p.cat !== cat) return false;
-    if (brand && !splitPipe(p.brands).includes(brand)) return false;
-    if (model && !splitPipe(p.models).includes(model)) return false;
-    if (year && !parseYearsAll(p.years).includes(+year)) return false;
-    return true;
-  }));
-}
-function clearFilters() { ['fSearch','fCat','fBrand','fModel','fYear'].forEach(id=>document.getElementById(id).value=''); renderProducts(products); }
-
-// ── CART ───────────────────────────────────────────────────────
-function addToCart(cod) {
-  const p=products.find(x=>x.cod===cod); if(!p) return;
-  const usedPrice = mechUser ? (p.priceMech||p.price) : p.price;
+// ── CART ──────────────────────────────────────────────────────
+function addToCart(cod){
+  const p=products.find(x=>x.cod===cod);if(!p)return;
+  const usedPrice=mechUser?(p.priceMech||p.price):p.price;
   const ex=cart.find(c=>c.cod===cod);
-  if (ex) { ex.qty++; ex.usedPrice=usedPrice; }
-  else cart.push({...p, qty:1, usedPrice, isMech: !!mechUser});
-  saveCart(); renderCart();
-  toast(`"${p.name.substring(0,28)}..." adicionado!`);
-  openCart();
+  if(ex){ex.qty++;ex.usedPrice=usedPrice;}
+  else cart.push({...p,qty:1,usedPrice,isMech:!!mechUser});
+  saveCart();renderCart();toast(`"${p.name.substring(0,28)}..." adicionado!`);openCart();
 }
-function rmCart(cod) { cart=cart.filter(c=>c.cod!==cod); saveCart(); renderCart(); }
-function chgQty(cod,d) { const i=cart.find(c=>c.cod===cod); if(!i) return; i.qty=Math.max(1,i.qty+d); saveCart(); renderCart(); }
+function rmCart(cod){cart=cart.filter(c=>c.cod!==cod);saveCart();renderCart();}
+function chgQty(cod,d){const i=cart.find(c=>c.cod===cod);if(!i)return;i.qty=Math.max(1,i.qty+d);saveCart();renderCart();}
 
-function renderCart() {
+function renderCart(){
   const n=cart.reduce((a,c)=>a+c.qty,0);
   document.getElementById('cartBadge').textContent=n;
   const body=document.getElementById('cartBody');
-  if (!cart.length) { body.innerHTML='<div class="cart-empty-msg"><p style="font-size:36px;margin-bottom:8px">🛒</p><p>Carrinho vazio</p></div>'; document.getElementById('cartTotal').textContent='R$ 0,00'; return; }
+  if(!cart.length){body.innerHTML='<div class="cart-empty-msg"><p style="font-size:36px;margin-bottom:8px">🛒</p><p>Carrinho vazio</p></div>';document.getElementById('cartTotal').textContent='R$ 0,00';return;}
   body.innerHTML=cart.map(item=>{
     const icon=item.icon||CAT_ICONS[item.cat]||'⚙️';
     const th=item.photo?`<img src="${item.photo}" alt="">`:icon;
-    const compat=compatStr(item);
     const usedPrice=item.usedPrice||item.price;
     return `<div class="ci">
       <div class="ci-thumb">${th}</div>
       <div class="ci-info">
         <div class="ci-name">${item.name}</div>
-        <div class="ci-cod">Cód: ${item.cod}${item.isMech?' · 🔧 Preço Mecânico':''}</div>
-        ${compat?`<div class="ci-compat">${compat}</div>`:''}
+        <div class="ci-cod">Cód: ${item.cod}${item.isMech?' · 🔧 Mecânico':''}</div>
         <div class="ci-price">R$ ${fmt(usedPrice*item.qty)}</div>
         <div class="ci-qty">
           <button class="qb" onclick="chgQty('${item.cod}',-1)">−</button>
@@ -663,82 +726,86 @@ function renderCart() {
   const total=cart.reduce((a,c)=>a+(c.usedPrice||c.price)*c.qty,0);
   document.getElementById('cartTotal').textContent='R$ '+fmt(total);
 }
-function openCart()  { document.getElementById('overlay').classList.add('on'); document.getElementById('cartPanel').classList.add('on'); }
-function closeCart() { document.getElementById('overlay').classList.remove('on'); document.getElementById('cartPanel').classList.remove('on'); }
-function saveCart()  { localStorage.setItem('mxCart',JSON.stringify(cart)); }
+function openCart(){document.getElementById('overlay').classList.add('on');document.getElementById('cartPanel').classList.add('on');}
+function closeCart(){document.getElementById('overlay').classList.remove('on');document.getElementById('cartPanel').classList.remove('on');}
+function saveCart(){localStorage.setItem('mxCart',JSON.stringify(cart));}
 
-// ── WHATSAPP ───────────────────────────────────────────────────
-function sendWA() {
-  if (!cart.length) { toast('Adicione itens ao carrinho!'); return; }
+// ── WHATSAPP ──────────────────────────────────────────────────
+function sendWA(){
+  if(!cart.length){toast('Adicione itens ao carrinho!');return;}
   const name=document.getElementById('custName').value.trim();
-  if (!name) { toast('Informe seu nome!'); return; }
+  if(!name){toast('Informe seu nome!');return;}
   const phone=document.getElementById('custPhone').value.trim();
   let msg=`*🏍️ PEDIDO — MX CENTER*\n\n`;
-  if (mechUser) msg+=`*🔧 Pedido de Mecânico: ${mechUser.name}*\n`;
+  if(mechUser)msg+=`*🔧 Pedido de Mecânico: ${mechUser.name}*\n`;
   msg+=`*Cliente:* ${name}\n`;
-  if (phone) msg+=`*Telefone:* ${phone}\n`;
+  if(phone)msg+=`*Telefone:* ${phone}\n`;
   msg+=`\n*Itens:*\n─────────────────\n`;
   cart.forEach(item=>{
     const usedPrice=item.usedPrice||item.price;
-    msg+=`▸ *${item.name}*\n  Código: \`${item.cod}\`\n`;
-    if (item.isMech) msg+=`  Preço: R$ ${fmt(usedPrice)} (mecânico)\n`;
-    else msg+=`  Preço: R$ ${fmt(usedPrice)}\n`;
-    const c=compatStr(item); if(c) msg+=`  Compatível: ${c}\n`;
-    msg+=`  Qtd: ${item.qty} · Subtotal: R$ ${fmt(usedPrice*item.qty)}\n\n`;
+    msg+=`▸ *${item.name}*\n`;
+    msg+=`  Código: \`${item.cod}\`\n`;
+    msg+=`  Qtd: ${item.qty}\n`;
+    msg+=`  Preço unit.: R$ ${fmt(usedPrice)}${item.isMech?' _(mecânico)_':''}\n`;
+    msg+=`  Subtotal: R$ ${fmt(usedPrice*item.qty)}\n\n`;
   });
   const total=cart.reduce((a,c)=>a+(c.usedPrice||c.price)*c.qty,0);
   msg+=`─────────────────\n*TOTAL: R$ ${fmt(total)}*\n\n_Aguardando confirmação de pagamento._`;
   window.open(`https://wa.me/${WA_NUM}?text=${encodeURIComponent(msg)}`,'_blank');
 }
 
-// ── ADMIN TABS ─────────────────────────────────────────────────
-function switchTab(panelId, btn) {
+// ── ADMIN ─────────────────────────────────────────────────────
+function switchTab(panelId,btn){
   document.querySelectorAll('.atab-panel').forEach(p=>p.classList.remove('on'));
   document.querySelectorAll('.atab').forEach(b=>b.classList.remove('on'));
-  document.getElementById(panelId).classList.add('on');
-  btn.classList.add('on');
-  if (panelId === 'tabMechs') loadMechanics();
+  document.getElementById(panelId).classList.add('on');btn.classList.add('on');
+  if(panelId==='tabMechs')loadMechanics();
 }
+function checkAdmin(){if(window.location.hash==='#admin')showAdmin();}
+function showAdmin(){document.getElementById('adminPanel').style.display='block';document.getElementById('pgLoja').classList.remove('on');renderAdminTable();}
+function hideAdmin(){document.getElementById('adminPanel').style.display='none';document.getElementById('pgLoja').classList.add('on');}
+window.addEventListener('hashchange',()=>{if(window.location.hash==='#admin')showAdmin();else hideAdmin();});
+document.addEventListener('keydown',e=>{
+  if(e.ctrlKey&&e.shiftKey&&e.key==='A'){const ap=document.getElementById('adminPanel');if(!ap.style.display||ap.style.display==='none')showAdmin();else{window.location.hash='';hideAdmin();}}
+});
 
-// ── ADD PRODUCT ────────────────────────────────────────────────
-async function addProduct() {
+// ── ADD PRODUCT ───────────────────────────────────────────────
+async function addProduct(){
   const cod=document.getElementById('pCod').value.trim();
   const name=document.getElementById('pName').value.trim();
   const price=parseFloat(document.getElementById('pPrice').value);
   const priceMech=parseFloat(document.getElementById('pPriceMech').value);
-  const cat=getCategory('pCat','pCatCustom');
+  const cat=getCat('p');
   const icon=document.getElementById('pIcon').value.trim();
   const desc=document.getElementById('pDesc').value.trim();
-  const brands=getTags('pBrand'), models=getTags('pModel'), years=getTags('pYear');
-  if (!cod||!name||isNaN(price)||price<0) { toast('Preencha Código, Nome e Preço!'); return; }
-  if (products.find(p=>p.cod===cod)) { toast(`Código "${cod}" já existe!`); return; }
-  const prod={cod,name,cat,price,priceMech:isNaN(priceMech)?price:priceMech,icon:icon||CAT_ICONS[cat]||'⚙️',brands,models,years,photo:pPhoto,desc};
-  const btn=document.getElementById('btnAdd');
-  btn.textContent='⏳ Salvando...'; btn.disabled=true;
-  try {
-    await apiPost('addProduct',prod);
-    products.push(prod); saveProd(); renderProducts(products); buildSelects(); renderAdminTable();
+  if(!cod||!name||isNaN(price)||price<0){toast('Preencha Código, Nome e Preço!');return;}
+  if(products.find(p=>p.cod===cod)){toast(`Código "${cod}" já existe!`);return;}
+  const compats=compatSets.p;
+  const prod={cod,name,cat,price,priceMech:isNaN(priceMech)?price:priceMech,icon:icon||CAT_ICONS[cat]||'⚙️',compats,photo:pPhoto,desc};
+  const btn=document.getElementById('btnAdd');btn.textContent='⏳ Salvando...';btn.disabled=true;
+  try{
+    await apiPost('addProduct',{...prod,compats:compatsToString(compats)});
+    products.push(prod);saveProd();renderProducts(products);buildSelects();renderAdminTable();
     ['pCod','pName','pPrice','pPriceMech','pIcon','pDesc','pCatCustom'].forEach(id=>document.getElementById(id).value='');
-    document.getElementById('pCat').value='';
-    document.getElementById('pCatCustomWrap').style.display='none';
-    clearTags('pBrand'); clearTags('pModel'); clearTags('pYear');
-    pPhoto=''; document.getElementById('pPhotoPrev').style.display='none';
+    document.getElementById('pCat').value='';document.getElementById('pCatCustomWrap').style.display='none';
+    setCompatSets('p',[]);
+    pPhoto='';document.getElementById('pPhotoPrev').style.display='none';
     document.getElementById('pPhotoTxt').textContent='📷 Clique para selecionar uma foto';
     document.getElementById('pPhotoFile').value='';
     toast(`✅ Produto "${name}" cadastrado!`);
-  } catch(e) { toast('Erro ao salvar no Sheets.'); }
-  btn.textContent='+ Cadastrar Produto'; btn.disabled=false;
+  }catch(e){toast('Erro ao salvar.');}
+  btn.textContent='+ Cadastrar Produto';btn.disabled=false;
 }
 
-async function delProduct(cod) {
-  if (!confirm('Remover este produto?')) return;
-  try { await apiPost('deleteProduct',{cod}); products=products.filter(p=>p.cod!==cod); saveProd(); renderProducts(products); buildSelects(); renderAdminTable(); toast('Produto removido.'); }
-  catch(e) { toast('Erro ao remover.'); }
+async function delProduct(cod){
+  if(!confirm('Remover este produto?'))return;
+  try{await apiPost('deleteProduct',{cod});products=products.filter(p=>p.cod!==cod);saveProd();renderProducts(products);buildSelects();renderAdminTable();toast('Produto removido.');}
+  catch(e){toast('Erro ao remover.');}
 }
 
-// ── EDIT PRODUCT ───────────────────────────────────────────────
-function openEdit(cod) {
-  const p=products.find(x=>x.cod===cod); if(!p) return;
+// ── EDIT PRODUCT ──────────────────────────────────────────────
+function openEditProd(cod){
+  const p=products.find(x=>x.cod===cod);if(!p)return;
   document.getElementById('eCodOrig').value=cod;
   document.getElementById('eCod').value=p.cod;
   document.getElementById('eName').value=p.name;
@@ -746,188 +813,172 @@ function openEdit(cod) {
   document.getElementById('ePriceMech').value=p.priceMech||'';
   document.getElementById('eIcon').value=p.icon||'';
   document.getElementById('eDesc').value=p.desc||'';
-  setCategory('eCat','eCatCustom',p.cat||'');
-  setTags('eBrand',p.brands||''); setTags('eModel',p.models||''); setTags('eYear',p.years||'');
+  setCat('e',p.cat||'');
+  setCompatSets('e', p.compats||[]);
   ePhoto=p.photo||'';
   const prev=document.getElementById('ePhotoPrev');
-  if (ePhoto){prev.src=ePhoto;prev.style.display='block';document.getElementById('ePhotoTxt').textContent='✅ Foto atual';}
+  if(ePhoto){prev.src=ePhoto;prev.style.display='block';document.getElementById('ePhotoTxt').textContent='✅ Foto atual';}
   else{prev.style.display='none';document.getElementById('ePhotoTxt').textContent='📷 Clique para trocar a foto';}
-  document.getElementById('editModal').classList.add('on');
+  document.getElementById('editProdModal').classList.add('on');
 }
-function closeEdit() { document.getElementById('editModal').classList.remove('on'); }
-document.getElementById('editModal').addEventListener('click',function(e){if(e.target===this)closeEdit();});
+function closeEditProd(){document.getElementById('editProdModal').classList.remove('on');}
+document.getElementById('editProdModal').addEventListener('click',function(e){if(e.target===this)closeEditProd();});
 
-async function saveEdit() {
+async function saveEditProd(){
   const origCod=document.getElementById('eCodOrig').value;
   const newCod=document.getElementById('eCod').value.trim();
   const name=document.getElementById('eName').value.trim();
   const price=parseFloat(document.getElementById('ePrice').value);
   const priceMech=parseFloat(document.getElementById('ePriceMech').value);
-  const cat=getCategory('eCat','eCatCustom');
+  const cat=getCat('e');
   const icon=document.getElementById('eIcon').value.trim();
   const desc=document.getElementById('eDesc').value.trim();
-  const brands=getTags('eBrand'),models=getTags('eModel'),years=getTags('eYear');
-  if (!newCod||!name||isNaN(price)||price<0){toast('Preencha Código, Nome e Preço!');return;}
-  if (newCod!==origCod&&products.find(p=>p.cod===newCod)){toast(`Código "${newCod}" já existe!`);return;}
-  const updated={cod:newCod,name,cat,price,priceMech:isNaN(priceMech)?price:priceMech,icon:icon||CAT_ICONS[cat]||'⚙️',brands,models,years,photo:ePhoto,desc};
-  const btn=document.getElementById('btnSaveEdit');
-  btn.textContent='⏳ Salvando...'; btn.disabled=true;
-  try {
+  const compats=compatSets.e;
+  if(!newCod||!name||isNaN(price)||price<0){toast('Preencha Código, Nome e Preço!');return;}
+  if(newCod!==origCod&&products.find(p=>p.cod===newCod)){toast(`Código "${newCod}" já existe!`);return;}
+  const updated={cod:newCod,name,cat,price,priceMech:isNaN(priceMech)?price:priceMech,icon:icon||CAT_ICONS[cat]||'⚙️',compats,photo:ePhoto,desc};
+  const btn=document.getElementById('btnSaveEditProd');btn.textContent='⏳ Salvando...';btn.disabled=true;
+  try{
     await apiPost('deleteProduct',{cod:origCod});
-    await apiPost('addProduct',updated);
-    const idx=products.findIndex(p=>p.cod===origCod);
-    if(idx!==-1)products[idx]=updated;
-    saveProd(); renderProducts(products); buildSelects(); renderAdminTable();
-    closeEdit(); toast(`✅ "${name}" atualizado!`);
-  } catch(e){toast('Erro ao salvar.');}
-  btn.textContent='💾 Salvar'; btn.disabled=false;
+    await apiPost('addProduct',{...updated,compats:compatsToString(compats)});
+    const idx=products.findIndex(p=>p.cod===origCod);if(idx!==-1)products[idx]=updated;
+    saveProd();renderProducts(products);buildSelects();renderAdminTable();
+    closeEditProd();toast(`✅ "${name}" atualizado!`);
+  }catch(e){toast('Erro ao salvar.');}
+  btn.textContent='💾 Salvar';btn.disabled=false;
 }
 
-function renderAdminTable() {
+function renderAdminTable(){
   const tbody=document.getElementById('atBody');
-  if (!products.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:1.4rem">Nenhum produto.</td></tr>';return;}
+  if(!products.length){tbody.innerHTML='<tr><td colspan="8" style="text-align:center;color:var(--muted);padding:1.4rem">Nenhum produto.</td></tr>';return;}
   tbody.innerHTML=products.map(p=>{
     const icon=p.icon||CAT_ICONS[p.cat]||'⚙️';
     const th=p.photo?`<img src="${p.photo}" style="width:38px;height:38px;object-fit:cover;border-radius:5px">`:`<div style="width:38px;height:38px;background:linear-gradient(135deg,#1a1a1a,#333);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:16px">${icon}</div>`;
-    const compat=compatStr(p)||'—';
+    const compatStr=(p.compats||[]).map(c=>[c.brand,c.model,c.year].filter(Boolean).join(' ')).join(' | ')||'—';
     return `<tr>
       <td>${th}</td>
       <td><code style="font-size:11px;background:var(--surface2);padding:2px 6px;border-radius:3px">${p.cod}</code></td>
-      <td style="max-width:160px">${p.name}</td>
+      <td style="max-width:150px">${p.name}</td>
       <td>${p.cat||'—'}</td>
-      <td style="font-size:12px;color:var(--muted);max-width:170px">${compat}</td>
+      <td style="font-size:11px;color:var(--muted);max-width:180px">${compatStr}</td>
       <td style="color:var(--red);font-weight:700;white-space:nowrap">R$ ${fmt(p.price)}</td>
       <td style="color:#ffc800;font-weight:700;white-space:nowrap">R$ ${fmt(p.priceMech||0)}</td>
-      <td><div class="td-act"><button class="btn-edit" onclick="openEdit('${p.cod}')">✏️</button><button class="btn-del" onclick="delProduct('${p.cod}')">✕</button></div></td>
+      <td><div class="td-act"><button class="btn-edit" onclick="openEditProd('${p.cod}')">✏️</button><button class="btn-del" onclick="delProduct('${p.cod}')">✕</button></div></td>
     </tr>`;
   }).join('');
 }
 
-// ── MECHANICS ──────────────────────────────────────────────────
-async function loadMechanics() {
+// ── MECHANICS ─────────────────────────────────────────────────
+async function loadMechanics(){
   const tbody=document.getElementById('mechBody');
   tbody.innerHTML='<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:1rem">Carregando...</td></tr>';
-  try {
+  try{
     const r=await fetch(SCRIPT_URL+'?action=getMechanics');
     const d=await r.json();
     const mechs=d.mechanics||[];
-    if (!mechs.length){tbody.innerHTML='<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:1.4rem">Nenhum mecânico cadastrado.</td></tr>';return;}
+    if(!mechs.length){tbody.innerHTML='<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:1.4rem">Nenhum mecânico cadastrado.</td></tr>';return;}
     tbody.innerHTML=mechs.map(m=>`<tr>
       <td><strong>${m.login}</strong></td>
       <td>${m.name||'—'}</td>
       <td style="font-size:12px;color:var(--muted)">${m.createdAt?m.createdAt.substring(0,10):'—'}</td>
-      <td><button class="btn-del" onclick="delMechanic('${m.login}')">Remover</button></td>
+      <td><div class="td-act">
+        <button class="btn-edit" onclick="openEditMech('${m.login}','${(m.name||'').replace(/'/g,"\\'")}')">✏️</button>
+        <button class="btn-del" onclick="delMechanic('${m.login}')">✕</button>
+      </div></td>
     </tr>`).join('');
-  } catch(e){tbody.innerHTML='<tr><td colspan="4" style="text-align:center;color:var(--red)">Erro ao carregar.</td></tr>';}
+  }catch(e){tbody.innerHTML='<tr><td colspan="4" style="text-align:center;color:var(--red)">Erro ao carregar.</td></tr>';}
 }
 
-async function addMechanic() {
+async function addMechanic(){
   const login=document.getElementById('mLogin').value.trim();
   const pass=document.getElementById('mPass').value;
   const name=document.getElementById('mName').value.trim();
-  if (!login||!pass){toast('Preencha login e senha!');return;}
-  const btn=document.getElementById('btnAddMech');
-  btn.textContent='⏳ Salvando...'; btn.disabled=true;
-  try {
+  if(!login||!pass){toast('Preencha login e senha!');return;}
+  const btn=document.getElementById('btnAddMech');btn.textContent='⏳ Salvando...';btn.disabled=true;
+  try{
     const r=await apiPost('addMechanic',{login,password:pass,name:name||login});
-    if (r.success){
-      ['mLogin','mPass','mName'].forEach(id=>document.getElementById(id).value='');
-      await loadMechanics();
-      toast(`✅ Mecânico "${login}" cadastrado!`);
-    } else { toast(r.error||'Erro ao cadastrar.'); }
-  } catch(e){toast('Erro de conexão.');}
-  btn.textContent='+ Cadastrar Mecânico'; btn.disabled=false;
+    if(r.success){['mLogin','mPass','mName'].forEach(id=>document.getElementById(id).value='');await loadMechanics();toast(`✅ Mecânico "${login}" cadastrado!`);}
+    else toast(r.error||'Erro ao cadastrar.');
+  }catch(e){toast('Erro de conexão.');}
+  btn.textContent='+ Cadastrar Mecânico';btn.disabled=false;
 }
 
-async function delMechanic(login) {
-  if (!confirm(`Remover mecânico "${login}"?`)) return;
-  try { await apiPost('deleteMechanic',{login}); await loadMechanics(); toast('Mecânico removido.'); }
+async function delMechanic(login){
+  if(!confirm(`Remover mecânico "${login}"?`))return;
+  try{await apiPost('deleteMechanic',{login});await loadMechanics();toast('Mecânico removido.');}
   catch(e){toast('Erro ao remover.');}
 }
 
-// ── ADMIN ACCESS ────────────────────────────────────────────────
-function checkAdmin() { if (window.location.hash==='#admin') showAdmin(); }
-function showAdmin()  { document.getElementById('adminPanel').style.display='block'; document.getElementById('pgLoja').classList.remove('on'); renderAdminTable(); }
-function hideAdmin()  { document.getElementById('adminPanel').style.display='none'; document.getElementById('pgLoja').classList.add('on'); }
-window.addEventListener('hashchange',()=>{ if(window.location.hash==='#admin')showAdmin(); else hideAdmin(); });
-document.addEventListener('keydown',e=>{
-  if(e.ctrlKey&&e.shiftKey&&e.key==='A'){
-    const ap=document.getElementById('adminPanel');
-    if(!ap.style.display||ap.style.display==='none')showAdmin();
-    else{window.location.hash='';hideAdmin();}
-  }
-});
-
-// ── TAG SYSTEM ──────────────────────────────────────────────────
-function addTag(prefix) {
-  const inp=document.getElementById(prefix+'Inp'); const v=inp.value.trim();
-  if(!v)return; if(!tags[prefix].includes(v)){tags[prefix].push(v);renderTags(prefix);}
-  inp.value=''; inp.focus();
+// ── EDIT MECHANIC ─────────────────────────────────────────────
+function openEditMech(login, name){
+  document.getElementById('eMechLoginOrig').value=login;
+  document.getElementById('eMechLogin').value=login;
+  document.getElementById('eMechPass').value='';
+  document.getElementById('eMechName').value=name;
+  document.getElementById('editMechErr').textContent='';
+  document.getElementById('editMechModal').classList.add('on');
 }
-function removeTag(prefix,v) { tags[prefix]=tags[prefix].filter(x=>x!==v); renderTags(prefix); }
-function renderTags(prefix) {
-  const area=document.getElementById(prefix+'Area'); if(!area)return;
-  area.innerHTML=tags[prefix].map(v=>`<span class="tag">${v}<button onclick="removeTag('${prefix}','${v.replace(/'/g,"\\'")}')">×</button></span>`).join('');
-}
-function setTags(prefix,str) { tags[prefix]=str?str.split('|').filter(Boolean):[]; renderTags(prefix); }
-function getTags(prefix) { return tags[prefix].join('|'); }
-function clearTags(prefix) { tags[prefix]=[]; renderTags(prefix); }
+function closeEditMech(){document.getElementById('editMechModal').classList.remove('on');}
+document.getElementById('editMechModal').addEventListener('click',function(e){if(e.target===this)closeEditMech();});
 
-// ── PHOTO ───────────────────────────────────────────────────────
-function handlePhoto(scope,inp) {
-  const f=inp.files[0]; if(!f)return;
+async function saveEditMech(){
+  const origLogin=document.getElementById('eMechLoginOrig').value;
+  const newLogin=document.getElementById('eMechLogin').value.trim();
+  const newPass=document.getElementById('eMechPass').value;
+  const newName=document.getElementById('eMechName').value.trim();
+  if(!newLogin){document.getElementById('editMechErr').textContent='Login é obrigatório.';return;}
+  const btn=document.getElementById('btnSaveEditMech');btn.textContent='⏳ Salvando...';btn.disabled=true;
+  try{
+    // Delete old, add new (with same or new password)
+    // First get old password if not changing
+    const r=await apiPost('editMechanic',{origLogin,newLogin,newPass,newName:newName||newLogin});
+    if(r.success){
+      await loadMechanics();
+      // update session if editing logged-in mechanic
+      if(mechUser&&mechUser.login===origLogin){mechUser={login:newLogin,name:newName||newLogin};sessionStorage.setItem('mxMech',JSON.stringify(mechUser));updateMechUI();}
+      closeEditMech();toast(`✅ Mecânico "${newLogin}" atualizado!`);
+    } else { document.getElementById('editMechErr').textContent=r.error||'Erro ao salvar.'; }
+  }catch(e){document.getElementById('editMechErr').textContent='Erro de conexão.';}
+  btn.textContent='💾 Salvar';btn.disabled=false;
+}
+
+// ── CATEGORY ─────────────────────────────────────────────────
+function showCustomCat(scope){
+  const v=document.getElementById(scope+'Cat').value;
+  document.getElementById(scope+'CatCustomWrap').style.display=v==='__c__'?'block':'none';
+}
+function getCat(scope){
+  const v=document.getElementById(scope+'Cat').value;
+  return v==='__c__'?document.getElementById(scope+'CatCustom').value.trim():v;
+}
+function setCat(scope,cat){
+  const input=document.getElementById(scope+'CatCustom');
+  const wrap=document.getElementById(scope+'CatCustomWrap');
+  if(FIXED_CATS.includes(cat)){document.getElementById(scope+'Cat').value=cat;wrap.style.display='none';}
+  else if(cat){document.getElementById(scope+'Cat').value='__c__';input.value=cat;wrap.style.display='block';}
+  else{document.getElementById(scope+'Cat').value='';wrap.style.display='none';}
+}
+
+// ── PHOTO ─────────────────────────────────────────────────────
+function handlePhoto(scope,inp){
+  const f=inp.files[0];if(!f)return;
   const r=new FileReader();
   r.onload=e=>{
     if(scope==='p'){pPhoto=e.target.result;document.getElementById('pPhotoPrev').src=pPhoto;document.getElementById('pPhotoPrev').style.display='block';document.getElementById('pPhotoTxt').textContent='✅ '+f.name;}
     else{ePhoto=e.target.result;document.getElementById('ePhotoPrev').src=ePhoto;document.getElementById('ePhotoPrev').style.display='block';document.getElementById('ePhotoTxt').textContent='✅ '+f.name;}
-  };
-  r.readAsDataURL(f);
+  };r.readAsDataURL(f);
 }
 
-// ── CATEGORY ────────────────────────────────────────────────────
-function showCustomCat(inputId,sel) {
-  const wrap=document.getElementById(inputId+'Wrap')||document.getElementById(inputId)?.closest('.row1');
-  const input=document.getElementById(inputId);
-  const show=sel.value==='__c__';
-  if(input)input.style.display=show?'':'none';
-  // try to find the wrapper div
-  const wrapEl=document.getElementById(inputId.replace('Custom','CustomWrap'));
-  if(wrapEl)wrapEl.style.display=show?'':'none';
-}
-function getCategory(selId,customId) { const v=document.getElementById(selId).value; return v==='__c__'?document.getElementById(customId).value.trim():v; }
-function setCategory(selId,customId,cat) {
-  const input=document.getElementById(customId);
-  if(FIXED_CATS.includes(cat)){document.getElementById(selId).value=cat;input.style.display='none';}
-  else if(cat){document.getElementById(selId).value='__c__';input.value=cat;input.style.display='block';}
-  else{document.getElementById(selId).value='';input.style.display='none';}
-}
-
-// ── COMPAT HELPERS ──────────────────────────────────────────────
-function splitPipe(s) { return s?s.split('|').filter(Boolean):[]; }
-function compatStr(p) {
-  const b=splitPipe(p.brands),m=splitPipe(p.models),y=splitPipe(p.years),parts=[];
-  if(b.length)parts.push(b.join(', ')); if(m.length)parts.push(m.join(', ')); if(y.length)parts.push(y.join(', '));
-  return parts.join(' · ');
-}
-function parseYearsAll(str) {
-  if(!str)return []; const out=[];
-  str.split('|').forEach(s=>{ const m=s.match(/(\d{4})-(\d{4})/); if(m){for(let y=+m[1];y<=+m[2];y++)out.push(y);}else{const n=s.match(/\d{4}/g);if(n)n.forEach(x=>out.push(+x));} });
-  return out;
-}
-
-// ── API ─────────────────────────────────────────────────────────
-async function apiPost(action,data) {
+// ── API ───────────────────────────────────────────────────────
+async function apiPost(action,data){
   const r=await fetch(SCRIPT_URL,{method:'POST',body:JSON.stringify({action,...data})});
   return r.json();
 }
 
-// ── UTILS ────────────────────────────────────────────────────────
-function fmt(v) { return parseFloat(v||0).toFixed(2).replace('.',','); }
-function saveProd() { localStorage.setItem('mxProducts',JSON.stringify(products)); }
-function toast(msg) {
-  const t=document.getElementById('toast'); t.textContent=msg; t.classList.add('on');
-  setTimeout(()=>t.classList.remove('on'),3200);
-}
+// ── UTILS ─────────────────────────────────────────────────────
+function fmt(v){return parseFloat(v||0).toFixed(2).replace('.',',');}
+function saveProd(){localStorage.setItem('mxProducts',JSON.stringify(products));}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),3200);}
 
 boot();
 </script>
