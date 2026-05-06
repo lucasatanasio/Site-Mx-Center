@@ -557,7 +557,12 @@ function loadProducts() {
     .then(function(r) { return r.json(); })
     .then(function(d) {
       products = (d.products || []).map(function(p) {
-        return Object.assign({}, p, {compats: parseCompats(p.compats || '')});
+        var compats = parseCompats(p.compats || '');
+        return Object.assign({}, p, {
+          compats: compats,
+          price: parseFloat(p.price) || 0,
+          priceMech: parseFloat(p.priceMech) || 0
+        });
       });
       // Reattach photos from localStorage
       products = products.map(function(p) {
@@ -587,17 +592,26 @@ function getSamples() {
 // ── COMPAT ───────────────────────────────────────────────────
 function parseCompats(str) {
   if (!str) return [];
+  if (Array.isArray(str)) return str; // already parsed
   try {
-    // Decode HTML entities (Sheets encodes JSON quotes as &quot;)
-    var decoded = str
+    // Decode ALL possible HTML entity encodings from Sheets
+    var decoded = String(str)
       .replace(/&quot;/g, '"')
+      .replace(/&#34;/g, '"')
       .replace(/&amp;/g, '&')
+      .replace(/&#38;/g, '&')
       .replace(/&#39;/g, "'")
+      .replace(/&apos;/g, "'")
       .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>');
+      .replace(/&gt;/g, '>')
+      .trim();
+    if (!decoded || decoded === '[]' || decoded === '') return [];
     var parsed = JSON.parse(decoded);
     return Array.isArray(parsed) ? parsed : [];
-  } catch(e) { return []; }
+  } catch(e) {
+    // Last resort: try to extract brand/model/year from malformed string
+    return [];
+  }
 }
 
 function compatsToStr(arr) {
@@ -693,9 +707,13 @@ function handlePhoto(scope, inp) {
 function buildSelects() {
   var brands = [], models = [], years = [], cats = [];
   products.forEach(function(p) {
-    (p.compats || []).forEach(function(c) {
-      if (c.brand && brands.indexOf(c.brand) < 0) brands.push(c.brand);
-      if (c.model && models.indexOf(c.model) < 0) models.push(c.model);
+    var compats = Array.isArray(p.compats) ? p.compats : parseCompats(p.compats);
+    compats.forEach(function(c) {
+      if (!c || typeof c !== 'object') return;
+      var b = (c.brand || '').trim();
+      var m = (c.model || '').trim();
+      if (b && brands.indexOf(b) < 0) brands.push(b);
+      if (m && models.indexOf(m) < 0) models.push(m);
       expandYears(c.year).forEach(function(y) { if (years.indexOf(y) < 0) years.push(y); });
     });
     if (p.cat && cats.indexOf(p.cat) < 0) cats.push(p.cat);
@@ -754,10 +772,16 @@ function applyFilters() {
     if (srch && normalize(p.name).indexOf(srch) < 0 && normalize(p.cod).indexOf(srch) < 0) return false;
     if (cat && p.cat !== cat) return false;
     if (brand || model || year) {
-      var match = (p.compats || []).some(function(cs) {
-        if (brand && cs.brand !== brand) return false;
-        if (model && cs.model !== model) return false;
-        if (year && expandYears(cs.year).indexOf(+year) < 0) return false;
+      var compats = Array.isArray(p.compats) ? p.compats : parseCompats(p.compats);
+      if (!compats.length) return false;
+      var match = compats.some(function(cs) {
+        if (!cs || typeof cs !== 'object') return false;
+        var csBrand = (cs.brand || '').trim();
+        var csModel = (cs.model || '').trim();
+        var csYear  = (cs.year  || '').trim();
+        if (brand && csBrand !== brand) return false;
+        if (model && csModel !== model) return false;
+        if (year && expandYears(csYear).indexOf(+year) < 0) return false;
         return true;
       });
       if (!match) return false;
