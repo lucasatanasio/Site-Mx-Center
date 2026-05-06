@@ -465,7 +465,7 @@ nav { background:var(--black); border-bottom:3px solid var(--red); height:60px; 
 <div class="toast" id="toast"></div>
 
 <script>
-var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyHNDQo6aj295gnIZMwmSnEwYWb0E0IYFGSyoLYYZCqttlA9CHy5zkkcKduFT7HAzyQ/exec';
+var SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyVe3xSJ2uYLim3Qrzc9CNMQt8k3XeK-kqVR5kpYyCaJU6qnhjgF88kXVKI1XkeHDfP/exec';
 var WA_NUM = '5547988146567';
 var CAT_ICONS = {'Suspensão Dianteira':'🏍️','Amortecedor':'⚙️','Retentores':'🔩','Bucha Externa':'🔧','Bucha Interna':'🛠️','Diafragma':'💎'};
 var FIXED_CATS = ['Suspensão Dianteira','Amortecedor','Retentores','Bucha Externa','Bucha Interna','Diafragma'];
@@ -557,6 +557,7 @@ function loadProducts() {
     .then(function(r) { return r.json(); })
     .then(function(d) {
       products = (d.products || []).map(function(p) {
+        // compats comes as array from new Apps Script, or string from old
         var compats = parseCompats(p.compats || '');
         return Object.assign({}, p, {
           compats: compats,
@@ -564,6 +565,10 @@ function loadProducts() {
           priceMech: parseFloat(p.priceMech) || 0
         });
       });
+      // Debug: log first product's compats to console
+      if (products.length > 0) {
+        console.log('[MXCenter] Primeiro produto:', products[0].name, '| compats:', JSON.stringify(products[0].compats));
+      }
       // Reattach photos from localStorage
       products = products.map(function(p) {
         var localPhoto = localStorage.getItem('mxPhoto_' + p.cod);
@@ -590,28 +595,24 @@ function getSamples() {
 }
 
 // ── COMPAT ───────────────────────────────────────────────────
-function parseCompats(str) {
-  if (!str) return [];
-  if (Array.isArray(str)) return str; // already parsed
+function parseCompats(val) {
+  if (!val) return [];
+  // Already an array (from updated Apps Script or localStorage)
+  if (Array.isArray(val)) return val;
+  // Already an object somehow
+  if (typeof val === 'object') return [];
+  var str = String(val).trim();
+  if (!str || str === '[]') return [];
+  // Decode HTML entities (Sheets sometimes encodes JSON)
+  str = str
+    .replace(/&quot;/g, '"').replace(/&#34;/g, '"')
+    .replace(/&amp;/g, '&').replace(/&#38;/g, '&')
+    .replace(/&#39;/g, "'").replace(/&apos;/g, "'")
+    .replace(/&lt;/g, '<').replace(/&gt;/g, '>');
   try {
-    // Decode ALL possible HTML entity encodings from Sheets
-    var decoded = String(str)
-      .replace(/&quot;/g, '"')
-      .replace(/&#34;/g, '"')
-      .replace(/&amp;/g, '&')
-      .replace(/&#38;/g, '&')
-      .replace(/&#39;/g, "'")
-      .replace(/&apos;/g, "'")
-      .replace(/&lt;/g, '<')
-      .replace(/&gt;/g, '>')
-      .trim();
-    if (!decoded || decoded === '[]' || decoded === '') return [];
-    var parsed = JSON.parse(decoded);
+    var parsed = JSON.parse(str);
     return Array.isArray(parsed) ? parsed : [];
-  } catch(e) {
-    // Last resort: try to extract brand/model/year from malformed string
-    return [];
-  }
+  } catch(e) { return []; }
 }
 
 function compatsToStr(arr) {
@@ -988,6 +989,7 @@ function addProduct() {
       try { localStorage.setItem('mxPhoto_' + cod, pPhoto); }
       catch(qe) { toast('⚠️ Foto grande demais para salvar localmente.'); }
     }
+    // prod.compats is already the array - save as-is locally
     products.push(prod);
     saveProd(); renderProducts(products); buildSelects(); renderAdminTable();
     ['pCod','pName','pPrice','pPriceMech','pDesc','pCatCustom'].forEach(function(id){ document.getElementById(id).value = ''; });
@@ -998,6 +1000,7 @@ function addProduct() {
     document.getElementById('pPhotoPrev').style.display = 'none';
     document.getElementById('pPhotoTxt').textContent = '📷 Clique para selecionar uma foto';
     document.getElementById('pPhotoFile').value = '';
+    console.log('[MXCenter] Produto cadastrado com compats:', JSON.stringify(prod.compats));
     toast('✅ Produto "' + name + '" cadastrado!');
   }).catch(function(e) { toast('❌ Erro ao salvar: ' + e.message); })
   .finally(function() { btn.textContent = '+ Cadastrar Produto'; btn.disabled = false; });
