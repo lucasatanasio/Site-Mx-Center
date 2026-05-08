@@ -200,7 +200,7 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
 <!-- SETUP SCREEN -->
 <div class="setup-screen" id="setupScreen">
   <div class="setup-box">
-    <h2>⚙️ Configuração Inicial</h2>
+    <h2>Configuração Inicial</h2>
     <p>Para salvar produtos na nuvem, você precisa de uma conta gratuita no JSONBin.io</p>
     <ol class="setup-steps">
       <li>Acesse <a href="https://jsonbin.io" target="_blank">jsonbin.io</a> e crie uma conta gratuita</li>
@@ -232,7 +232,7 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
 <!-- LOJA -->
 <div class="page on" id="pgLoja">
   <div class="hero">
-    <div><h1>Suspensão &amp;<br><span>Amortecedor</span></h1><p>Peças originais e de alta performance para sua moto</p></div>
+    <div><h1>Suspensão &amp;<br><span>Amortecedor</span></h1><p>Peças de alta performance para sua moto</p></div>
     <button class="btn-hero" onclick="document.getElementById('shopAnchor').scrollIntoView({behavior:'smooth'})">Ver Peças ↓</button>
   </div>
   <div id="mechBanner" class="mech-banner"><span>⭐</span><span id="mechBannerTxt"></span></div>
@@ -280,7 +280,7 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
   <div class="modal">
     <button class="modal-close" onclick="closeLogin()">✕</button>
     <div class="modal-hd"><h3>🔧 Área do Mecânico</h3><p>Entre com seu login e senha</p></div>
-    <div class="mfg"><label>Login</label><input type="text" id="loginInput" placeholder="Ex: Bruno629" autocomplete="off"></div>
+    <div class="mfg"><label>Login</label><input type="text" id="loginInput" placeholder="Ex: Digite seu Login" autocomplete="off"></div>
     <div class="mfg"><label>Senha</label><input type="password" id="passInput" placeholder="Sua senha"></div>
     <button class="btn-primary" id="btnLogin" onclick="doLogin()">Entrar</button>
     <div class="modal-err" id="loginErr"></div>
@@ -289,7 +289,7 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
 
 <!-- ADMIN -->
 <div id="adminPanel">
-  <h2 class="sec-title" style="margin-bottom:1.3rem">⚙️ Painel Admin</h2>
+  <h2 class="sec-title" style="margin-bottom:1.3rem">Painel Admin</h2>
   <div class="admin-tabs">
     <button class="atab on" onclick="switchTab('tabProds',this)">📦 Produtos</button>
     <button class="atab" onclick="switchTab('tabMechs',this)">🔧 Mecânicos</button>
@@ -298,12 +298,26 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
   <div class="atab-panel on" id="tabProds">
     <div class="acard">
       <div class="row2">
-        <div class="fg2"><label>Código *</label><input type="text" id="pCod" placeholder="Ex: MX-001" autocomplete="off"></div>
+        <div class="fg2"><label>Código *</label><input type="text" id="pCod" placeholder="Ex: 0000" autocomplete="off"></div>
         <div class="fg2"><label>Categoria *</label>
           <select id="pCat" onchange="showCustomCat('p')">
             <option value="">— Selecione —</option>
-            <option>Suspensão Dianteira</option><option>Amortecedor</option><option>Retentores</option>
-            <option>Bucha Externa</option><option>Bucha Interna</option><option>Diafragma</option>
+            <option>Bucha Externa</option>
+            <option>Bucha Interna</option>
+            <option>Retentores</option>
+            <option>Retentores Pó</option>
+            <option>Ferramentas</option>
+            <option>Óleos</option>
+            <option>Molas</option>
+            <option>Orings</option>
+            <option>Hastes</option>
+            <option>Alojamentos</option>
+            <option>Batentes</option>
+            <option>Bucha Amortecedor</option>
+            <option>Diafragma</option>
+            <option>Gaxeta</option>
+            <option>Gaxeta Pó</option>
+            <option>Valvulas Mx Center</option>
             <option value="__c__">+ Outra categoria...</option>
           </select>
         </div>
@@ -349,9 +363,9 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
   <div class="atab-panel" id="tabMechs">
     <div class="acard">
       <div class="row3">
-        <div class="fg2"><label>Login *</label><input type="text" id="mLogin" placeholder="Ex: Bruno629" autocomplete="off"></div>
+        <div class="fg2"><label>Login *</label><input type="text" id="mLogin" placeholder="Usuario do mecânico" autocomplete="off"></div>
         <div class="fg2"><label>Senha *</label><input type="password" id="mPass"></div>
-        <div class="fg2"><label>Nome (opcional)</label><input type="text" id="mName" placeholder="Ex: Bruno Silva" autocomplete="off"></div>
+        <div class="fg2"><label>Nome (opcional)</label><input type="text" id="mName" placeholder="Nome do mecânico" autocomplete="off"></div>
       </div>
       <button class="btn-save-prod" id="btnAddMech" onclick="addMechanic()">+ Cadastrar Mecânico</button>
     </div>
@@ -440,7 +454,7 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
 var WA_NUM      = '5547988146567';
 var JSONBIN_URL = 'https://api.jsonbin.io/v3/b';
 var CAT_ICONS   = {'Suspensão Dianteira':'🏍️','Amortecedor':'⚙️','Retentores':'🔩','Bucha Externa':'🔧','Bucha Interna':'🛠️','Diafragma':'💎'};
-var FIXED_CATS  = ['Suspensão Dianteira','Amortecedor','Retentores','Bucha Externa','Bucha Interna','Diafragma'];
+var FIXED_CATS  = ['Bucha Interna','Retentores','Retentores Pó','Ferramentas','Óleos','Molas','Orings','Hastes','Alojamentos','Batentes','Bucha Amortecedor','Diafragma','Gaxeta','Gaxeta Pó','Valvulas Mx Center'];
 
 // ── STATE ────────────────────────────────────────────────────
 var products  = [];
