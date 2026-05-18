@@ -790,7 +790,7 @@ function sendWA(){
   if(!cart.length){toast('Adicione itens!');return;}
   var name=document.getElementById('custName').value.trim();if(!name){toast('Informe seu nome!');return;}
   var phone=document.getElementById('custPhone').value.trim();
-  var msg='*\ud83c\udfc4 PEDIDO \u2014 MX CENTER*\n\n';
+  var msg='* PEDIDO \u2014 MX CENTER*\n\n';
   if(mechUser)msg+='*\ud83d\udd27 Mec\u00e2nico: '+mechUser.name+'*\n';
   msg+='*Cliente:* '+name+'\n';if(phone)msg+='*Telefone:* '+phone+'\n';
   msg+='\n*Itens:*\n\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\u2500\n';
