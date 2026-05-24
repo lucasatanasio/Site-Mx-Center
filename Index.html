@@ -243,14 +243,6 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
 .atable tr:hover td{background:var(--surface2)}
 .btn-edit{background:none;border:1px solid #2563eb;color:#2563eb;padding:4px 9px;border-radius:4px;font-size:12px;transition:all .2s;margin-right:4px}
 .btn-edit:hover{background:#2563eb;color:#fff}
-.btn-clone{background:none;border:1px solid #7c3aed;color:#7c3aed;padding:4px 9px;border-radius:4px;font-size:12px;transition:all .2s;margin-right:4px}
-.btn-clone:hover{background:#7c3aed;color:#fff}
-.btn-copy-compat{background:none;border:1px solid var(--brd);color:var(--muted);padding:6px 12px;border-radius:5px;font-size:12px;transition:all .2s;display:flex;align-items:center;gap:5px}
-.btn-copy-compat:hover{border-color:#7c3aed;color:#7c3aed}
-.copy-compat-wrap{background:var(--surface);border:1px solid var(--brd);border-radius:8px;padding:10px 12px;margin-bottom:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.copy-compat-wrap label{font-size:11px;font-weight:600;text-transform:uppercase;color:var(--muted);white-space:nowrap}
-.copy-compat-sel{padding:6px 10px;border:1px solid var(--brd);border-radius:5px;background:var(--inp);color:var(--text);font-size:13px;outline:none;flex:1;min-width:160px}
-.copy-compat-sel:focus{border-color:#7c3aed}
 .btn-del{background:none;border:1px solid var(--brd);color:var(--muted);padding:4px 9px;border-radius:4px;font-size:12px;transition:all .2s}
 .btn-del:hover{background:var(--red);color:#fff;border-color:var(--red)}
 .td-act{display:flex;gap:4px;align-items:center}
@@ -344,6 +336,19 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
   </div>
 </div>
 
+<div class="modal-bg" id="adminLoginModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAdminLogin()">✕</button>
+    <div class="modal-hd">
+      <h3>🔐 Área Restrita</h3>
+      <p>Digite a senha de administrador</p>
+    </div>
+    <div class="mfg"><label>Senha</label><input type="password" id="adminPassInput" autocomplete="off" placeholder="Senha do admin"></div>
+    <button class="btn-primary" onclick="doAdminLogin()">Entrar</button>
+    <div class="modal-err" id="adminLoginErr"></div>
+  </div>
+</div>
+
 <div class="modal-bg" id="optModal">
   <div class="opt-select-wrap">
     <h3 id="optModalTitle">Escolha as opções</h3>
@@ -395,11 +400,6 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
         </div>
       </div>
       <div class="sec-lbl">🏍️ Compatibilidade de Motos</div>
-      <div class="copy-compat-wrap">
-        <label>📋 Copiar de:</label>
-        <select class="copy-compat-sel" id="pCopyCompatSel"><option value="">— Selecione um produto —</option></select>
-        <button class="btn-copy-compat" onclick="copyCompatFrom('p')">📋 Copiar</button>
-      </div>
       <div class="compat-wrap">
         <div id="pCompatList"><div class="compat-empty">Nenhuma compatibilidade adicionada</div></div>
         <div class="compat-add-row">
@@ -475,11 +475,6 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
       </div>
     </div>
     <div class="sec-lbl">🏍️ Compatibilidade</div>
-    <div class="copy-compat-wrap">
-      <label>📋 Copiar de:</label>
-      <select class="copy-compat-sel" id="eCopyCompatSel"><option value="">— Selecione um produto —</option></select>
-      <button class="btn-copy-compat" onclick="copyCompatFrom('e')">📋 Copiar</button>
-    </div>
     <div class="compat-wrap">
       <div id="eCompatList"><div class="compat-empty">Nenhuma compatibilidade adicionada</div></div>
       <div class="compat-add-row">
@@ -826,37 +821,69 @@ function sendWA(){
 }
 
 function switchTab(id,btn){document.querySelectorAll('.atab-panel').forEach(function(p){p.classList.remove('on');});document.querySelectorAll('.atab').forEach(function(b){b.classList.remove('on');});document.getElementById(id).classList.add('on');btn.classList.add('on');if(id==='tabMechs')renderMechTable();}
-function checkAdmin(){if(window.location.hash==='#admin')showAdmin();}
-function copyCompatFrom(sc){
-  var sel=document.getElementById(sc+'CopyCompatSel');
-  var cod=sel.value;if(!cod){toast('Selecione um produto para copiar!');return;}
-  var p=products.find(function(x){return x.cod===cod;});
-  if(!p||!(p.compats||[]).length){toast('Produto selecionado não tem compatibilidades!');return;}
-  var merged=compatSets[sc].slice();
-  p.compats.forEach(function(c){
-    var exists=merged.some(function(m){return m.brand===c.brand&&m.model===c.model&&m.year===c.year;});
-    if(!exists)merged.push({brand:c.brand,model:c.model,year:c.year});
-  });
-  setCompatSets(sc,merged);
-  sel.value='';
-  toast('✅ '+p.compats.length+' compatibilidade(s) copiadas de "'+p.name.substring(0,20)+'"!');
+// Admin password — change this to your desired password
+var ADMIN_PASS='mxcenter2025';
+var _adminAuth=sessionStorage.getItem('mxAdminAuth')||'';
+
+function checkAdmin(){if(window.location.hash==='#admin')requestAdminLogin();}
+
+function requestAdminLogin(){
+  if(_adminAuth===ADMIN_PASS){showAdmin();return;}
+  document.getElementById('adminLoginModal').classList.add('on');
+  document.getElementById('adminPassInput').value='';
+  document.getElementById('adminLoginErr').textContent='';
+  setTimeout(function(){document.getElementById('adminPassInput').focus();},100);
 }
-function fillCompatSelectors(){
-  ['p','e'].forEach(function(sc){
-    var sel=document.getElementById(sc+'CopyCompatSel');if(!sel)return;
-    var cur=sel.value;
-    sel.innerHTML='<option value="">— Selecione um produto —</option>';
-    products.forEach(function(p){
-      if(!(p.compats||[]).length)return;
-      var o=document.createElement('option');o.value=p.cod;o.textContent=p.cod+' — '+p.name.substring(0,30)+' ('+p.compats.length+' motos)';sel.appendChild(o);
-    });
-    sel.value=cur;
-  });
+
+function closeAdminLogin(){
+  document.getElementById('adminLoginModal').classList.remove('on');
+  if(_adminAuth!==ADMIN_PASS){window.location.hash='';}
 }
-function showAdmin(){document.getElementById('adminPanel').style.display='block';showPage(null);renderAdminTable();fillCompatSelectors();}
-function hideAdmin(){document.getElementById('adminPanel').style.display='none';showPage('pgLoja');}
-window.addEventListener('hashchange',function(){if(window.location.hash==='#admin')showAdmin();else hideAdmin();});
-document.addEventListener('keydown',function(e){if(e.ctrlKey&&e.shiftKey&&e.key==='A'){var ap=document.getElementById('adminPanel');if(!ap.style.display||ap.style.display==='none')showAdmin();else{window.location.hash='';hideAdmin();}}});
+
+function doAdminLogin(){
+  var pw=document.getElementById('adminPassInput').value;
+  if(pw===ADMIN_PASS){
+    _adminAuth=pw;
+    sessionStorage.setItem('mxAdminAuth',pw);
+    document.getElementById('adminLoginModal').classList.remove('on');
+    showAdmin();
+  } else {
+    document.getElementById('adminLoginErr').textContent='Senha incorreta.';
+    document.getElementById('adminPassInput').value='';
+    document.getElementById('adminPassInput').focus();
+  }
+}
+
+function showAdmin(){
+  document.getElementById('adminPanel').style.display='block';
+  showPage(null);
+  renderAdminTable();
+}
+
+function hideAdmin(){
+  document.getElementById('adminPanel').style.display='none';
+  showPage('pgLoja');
+}
+
+window.addEventListener('hashchange',function(){
+  if(window.location.hash==='#admin')requestAdminLogin();
+  else hideAdmin();
+});
+
+document.addEventListener('keydown',function(e){
+  if(e.ctrlKey&&e.shiftKey&&e.key==='A'){
+    var ap=document.getElementById('adminPanel');
+    if(!ap.style.display||ap.style.display==='none'){
+      requestAdminLogin();
+    } else {
+      window.location.hash='';
+      hideAdmin();
+    }
+  }
+  if(e.key==='Enter'&&document.getElementById('adminLoginModal').classList.contains('on')){
+    doAdminLogin();
+  }
+});
 function showPage(id){document.querySelectorAll('.page').forEach(function(p){p.classList.remove('on');});if(id)document.getElementById(id).classList.add('on');}
 
 function showCustomCat(s){document.getElementById(s+'CatCustomWrap').style.display=document.getElementById(s+'Cat').value==='__c__'?'block':'none';}
@@ -900,7 +927,6 @@ function openEditProd(cod){
   setCat('e',p.cat||'');photosState.e=[];loadPhotosIntoState('e',p.photos||[]);
   setOptGroups('e',p.options||[]);setCompatSets('e',p.compats||[]);
   document.getElementById('editProdModal').classList.add('on');
-  fillCompatSelectors();
 }
 function closeEditProd(){document.getElementById('editProdModal').classList.remove('on');}
 document.getElementById('editProdModal').addEventListener('click',function(e){if(e.target===this)closeEditProd();});
@@ -909,36 +935,14 @@ async function saveEditProd(){
   var name=document.getElementById('eName').value.trim(),price=parseFloat(document.getElementById('ePrice').value);
   var priceMech=parseFloat(document.getElementById('ePriceMech').value),cat=getCat('e'),desc=document.getElementById('eDesc').value.trim();
   if(!newCod||!name||isNaN(price)||price<0){toast('❌ Preencha Código, Nome e Preço!');return;}
-  if(products.find(function(p){return p.cod===newCod&&(origCod==='__clone__'||p.cod!==origCod);})){toast('❌ Código "'+newCod+'" já existe!');return;}
+  if(newCod!==origCod&&products.find(function(p){return p.cod===newCod;})){toast('❌ Código já existe!');return;}
   var photos=getPhotos('e'),options=JSON.parse(JSON.stringify(optGroups.e)),compats=compatSets.e.slice();
   var updated={cod:newCod,name:name,cat:cat,price:price,priceMech:isNaN(priceMech)?price:priceMech,photos:photos,options:options,compats:compats,desc:desc};
   var btn=document.getElementById('btnSaveEditProd');btn.textContent='⏳ Salvando...';btn.disabled=true;
-  // Clone mode: insert as new product
-  if(origCod==='__clone__'){
-    try{products.push(updated);await saveAll();renderProducts(products);buildSelects();renderAdminTable();closeEditProd();toast('✅ Clone "'+name+'" cadastrado!');}
-    catch(e){products.pop();toast('❌ Erro: '+e.message);}
-  } else {
-    var idx=products.findIndex(function(p){return p.cod===origCod;}),old=products[idx];products[idx]=updated;
-    try{await saveAll();renderProducts(products);buildSelects();renderAdminTable();closeEditProd();toast('✅ "'+name+'" atualizado!');}
-    catch(e){products[idx]=old;toast('❌ Erro: '+e.message);}
-  }
+  var idx=products.findIndex(function(p){return p.cod===origCod;}),old=products[idx];products[idx]=updated;
+  try{await saveAll();renderProducts(products);buildSelects();renderAdminTable();closeEditProd();toast('✅ "'+name+'" atualizado!');}
+  catch(e){products[idx]=old;toast('❌ Erro: '+e.message);}
   btn.textContent='💾 Salvar';btn.disabled=false;
-}
-function cloneProduct(cod){
-  var p=products.find(function(x){return x.cod===cod;});if(!p)return;
-  var clone=JSON.parse(JSON.stringify(p));
-  document.getElementById('eCodOrig').value='__clone__';
-  document.getElementById('eCod').value='';
-  document.getElementById('eName').value=clone.name+' (cópia)';
-  document.getElementById('ePrice').value=clone.price;
-  document.getElementById('ePriceMech').value=clone.priceMech||'';
-  document.getElementById('eDesc').value=clone.desc||'';
-  setCat('e',clone.cat||'');
-  photosState.e=[];loadPhotosIntoState('e',clone.photos||[]);
-  setOptGroups('e',clone.options||[]);setCompatSets('e',clone.compats||[]);
-  document.getElementById('editProdModal').classList.add('on');
-  fillCompatSelectors();
-  toast('📋 Clone aberto — defina um código novo!');
 }
 function renderAdminTable(){
   var tbody=document.getElementById('atBody');
@@ -947,7 +951,7 @@ function renderAdminTable(){
     var icon=CAT_ICONS[p.cat]||'⚙️',ph=(p.photos||[])[0]||'';
     var th=ph?'<img src="'+ph+'" style="width:38px;height:38px;object-fit:cover;border-radius:5px">':'<div style="width:38px;height:38px;background:linear-gradient(135deg,#1a1a1a,#333);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:16px">'+icon+'</div>';
     var optsStr=(p.options||[]).length?p.options.map(function(g){return g.name;}).join(', '):'—';
-    return '<tr><td>'+th+'</td><td><code style="font-size:11px;background:var(--surface2);padding:2px 6px;border-radius:3px">'+p.cod+'</code></td><td style="max-width:140px">'+p.name+'</td><td>'+(p.cat||'—')+'</td><td style="font-size:12px">'+(p.photos||[]).length+'/4</td><td style="font-size:12px;color:var(--muted);max-width:120px">'+optsStr+'</td><td style="font-size:12px;color:var(--muted)">'+(p.compats||[]).length+' motos</td><td style="color:var(--red);font-weight:700;white-space:nowrap">R$ '+fmt(p.price)+'</td><td style="color:#e5a800;font-weight:700;white-space:nowrap">R$ '+fmt(p.priceMech||0)+'</td><td><div class="td-act"><button class="btn-clone" title="Clonar produto" onclick="cloneProduct(\''+p.cod+'\')" >📋</button><button class="btn-edit" onclick="openEditProd(\''+p.cod+'\')">✏️</button><button class="btn-del" onclick="delProduct(\''+p.cod+'\')">✕</button></div></td></tr>';
+    return '<tr><td>'+th+'</td><td><code style="font-size:11px;background:var(--surface2);padding:2px 6px;border-radius:3px">'+p.cod+'</code></td><td style="max-width:140px">'+p.name+'</td><td>'+(p.cat||'—')+'</td><td style="font-size:12px">'+(p.photos||[]).length+'/4</td><td style="font-size:12px;color:var(--muted);max-width:120px">'+optsStr+'</td><td style="font-size:12px;color:var(--muted)">'+(p.compats||[]).length+' motos</td><td style="color:var(--red);font-weight:700;white-space:nowrap">R$ '+fmt(p.price)+'</td><td style="color:#e5a800;font-weight:700;white-space:nowrap">R$ '+fmt(p.priceMech||0)+'</td><td><div class="td-act"><button class="btn-edit" onclick="openEditProd(\''+p.cod+'\')">✏️</button><button class="btn-del" onclick="delProduct(\''+p.cod+'\')">✕</button></div></td></tr>';
   }).join('');
 }
 async function addMechanic(){
