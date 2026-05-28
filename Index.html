@@ -243,14 +243,6 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
 .atable tr:hover td{background:var(--surface2)}
 .btn-edit{background:none;border:1px solid #2563eb;color:#2563eb;padding:4px 9px;border-radius:4px;font-size:12px;transition:all .2s;margin-right:4px}
 .btn-edit:hover{background:#2563eb;color:#fff}
-.btn-clone{background:none;border:1px solid #7c3aed;color:#7c3aed;padding:4px 9px;border-radius:4px;font-size:12px;transition:all .2s;margin-right:4px}
-.btn-clone:hover{background:#7c3aed;color:#fff}
-.btn-copy-compat{background:none;border:1px solid var(--brd);color:var(--muted);padding:6px 12px;border-radius:5px;font-size:12px;transition:all .2s;display:flex;align-items:center;gap:5px}
-.btn-copy-compat:hover{border-color:#7c3aed;color:#7c3aed}
-.copy-compat-wrap{background:var(--surface);border:1px solid var(--brd);border-radius:8px;padding:10px 12px;margin-bottom:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.copy-compat-wrap label{font-size:11px;font-weight:600;text-transform:uppercase;color:var(--muted);white-space:nowrap}
-.copy-compat-sel{padding:6px 10px;border:1px solid var(--brd);border-radius:5px;background:var(--inp);color:var(--text);font-size:13px;outline:none;flex:1;min-width:160px}
-.copy-compat-sel:focus{border-color:#7c3aed}
 .btn-del{background:none;border:1px solid var(--brd);color:var(--muted);padding:4px 9px;border-radius:4px;font-size:12px;transition:all .2s}
 .btn-del:hover{background:var(--red);color:#fff;border-color:var(--red)}
 .td-act{display:flex;gap:4px;align-items:center}
@@ -259,6 +251,35 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
 .btn-save-prod{background:var(--red);color:#fff;border:none;padding:10px 26px;border-radius:6px;font-family:var(--fd);font-size:16px;font-weight:700;text-transform:uppercase;transition:background .2s;margin-top:11px}
 .btn-save-prod:hover{background:var(--red2)}
 @media(max-width:640px){nav{padding:0 1rem}.hero h1{font-size:28px}.hero{padding:1.4rem}.filter-grid{grid-template-columns:1fr 1fr}.grid{grid-template-columns:repeat(auto-fill,minmax(155px,1fr))}.cart{width:100%}.row2,.row3{grid-template-columns:1fr}.compat-add-row{grid-template-columns:1fr 1fr}.btn-cs-add{grid-column:1/-1}.detail-name{font-size:24px}}
+
+.btn-ci-dup{background:none;border:none;color:var(--muted);font-size:15px;transition:color .2s;padding:2px 6px;cursor:pointer}
+.btn-ci-dup:hover{color:#7c3aed}
+.btn-ci-edit{background:none;border:none;color:var(--muted);font-size:15px;transition:color .2s;padding:2px 6px;cursor:pointer}
+.btn-ci-edit:hover{color:#2563eb}
+.compat-item.editing{background:var(--surface2);border-color:var(--red);flex-direction:column;align-items:stretch}
+.compat-edit-row{display:grid;grid-template-columns:1fr 1fr .7fr .7fr auto auto;gap:6px;margin-top:8px;align-items:end}
+.compat-edit-row input{padding:6px 8px;border:1px solid var(--brd);border-radius:5px;background:var(--inp);color:var(--text);font-size:13px;outline:none;width:100%}
+.compat-edit-row input:focus{border-color:var(--red)}
+.btn-ci-save{background:var(--red);color:#fff;border:none;padding:6px 12px;border-radius:5px;font-size:12px;font-weight:700;cursor:pointer;transition:background .2s}
+.btn-ci-save:hover{background:var(--red2)}
+.btn-ci-cancel{background:none;border:1px solid var(--brd);color:var(--muted);padding:6px 10px;border-radius:5px;font-size:12px;cursor:pointer;transition:all .2s}
+.btn-ci-cancel:hover{border-color:var(--red);color:var(--red)}
+.btn-clone{background:none;border:1px solid #7c3aed;color:#7c3aed;padding:4px 9px;border-radius:4px;font-size:12px;transition:all .2s;margin-right:4px}
+.btn-clone:hover{background:#7c3aed;color:#fff}
+.copy-compat-wrap{background:var(--surface);border:1px solid var(--brd);border-radius:8px;padding:10px 12px;margin-bottom:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.copy-compat-wrap label{font-size:11px;font-weight:600;text-transform:uppercase;color:var(--muted);white-space:nowrap}
+.copy-compat-sel{padding:6px 10px;border:1px solid var(--brd);border-radius:5px;background:var(--inp);color:var(--text);font-size:13px;outline:none;flex:1;min-width:160px}
+.copy-compat-sel:focus{border-color:#7c3aed}
+.btn-copy-compat{background:none;border:1px solid var(--brd);color:var(--muted);padding:6px 12px;border-radius:5px;font-size:12px;cursor:pointer;transition:all .2s}
+.btn-copy-compat:hover{border-color:#7c3aed;color:#7c3aed}
+.compat-toggle-btn{background:none;border:1px solid var(--brd);color:var(--muted);padding:8px 16px;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.compat-toggle-btn:hover{border-color:var(--red);color:var(--red)}
+.compat-section-collapsible{display:none;margin-bottom:1.5rem}
+.compat-section-collapsible.open{display:block}
+.related-section{margin-bottom:2rem}
+.related-section h3{font-family:var(--fd);font-size:20px;font-weight:700;text-transform:uppercase;border-left:4px solid var(--red);padding-left:10px;margin-bottom:1.1rem}
+.related-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(185px,1fr));gap:1rem}
+@media(max-width:640px){.related-grid{grid-template-columns:repeat(auto-fill,minmax(145px,1fr))}}
 </style>
 </head>
 <body data-theme="light">
@@ -303,9 +324,16 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
     </div>
     <div id="detailInfo"></div>
   </div>
-  <div class="compat-section">
-    <h3>🏍️ Compatibilidade</h3>
-    <div id="compatTableWrap"></div>
+  <div class="related-section" id="relatedSection" style="display:none">
+    <h3>Produtos Relacionados</h3>
+    <div class="related-grid" id="relatedGrid"></div>
+  </div>
+  <button class="compat-toggle-btn" id="compatToggleBtn" onclick="toggleCompat()" style="display:none">Ver Compatibilidade <span id="compatToggleArrow">▾</span></button>
+  <div class="compat-section-collapsible" id="compatCollapsible">
+    <div class="compat-section">
+      <h3>🏍️ Compatibilidade</h3>
+      <div id="compatTableWrap"></div>
+    </div>
   </div>
 </div>
 
@@ -341,6 +369,16 @@ nav{background:var(--black);border-bottom:3px solid var(--red);height:60px;paddi
         Falar com a gente
       </a>
     </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="adminLoginModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeAdminLogin()">✕</button>
+    <div class="modal-hd"><h3>🔐 Área Restrita</h3><p>Digite a senha de administrador</p></div>
+    <div class="mfg"><label>Senha</label><input type="password" id="adminPassInput" autocomplete="off" placeholder="Senha do admin"></div>
+    <button class="btn-primary" onclick="doAdminLogin()">Entrar</button>
+    <div class="modal-err" id="adminLoginErr"></div>
   </div>
 </div>
 
@@ -668,11 +706,64 @@ function addCompatSet(sc){
   document.getElementById(sc+'CSBrand').focus();
 }
 function removeCompatSet(sc,idx){compatSets[sc].splice(idx,1);renderCompatSets(sc);}
-function renderCompatSets(sc){
-  var c=document.getElementById(sc+'CompatList');
-  if(!compatSets[sc].length){c.innerHTML='<div class="compat-empty">Nenhuma compatibilidade adicionada</div>';return;}
-  c.innerHTML=compatSets[sc].map(function(cs,i){var info='';if(cs.brand)info+='<span class="ci2-brand">'+cs.brand+'</span>';if(cs.model)info+=' · <span class="ci2-model">'+cs.model+'</span>';if(cs.year)info+=' · <span class="ci2-year">'+cs.year+'</span>';return '<div class="compat-item"><div class="ci2-info">'+info+'</div><button class="btn-ci-del" onclick="removeCompatSet(\''+sc+'\','+i+')">✕</button></div>';}).join('');
+function dupCompatSet(sc,idx){
+  var src=compatSets[sc][idx];
+  document.getElementById(sc+'CSBrand').value=src.brand||'';
+  document.getElementById(sc+'CSModel').value=src.model||'';
+  if(src.year&&src.year.indexOf('-')>0){var pts=src.year.split('-');document.getElementById(sc+'CSYearFrom').value=pts[0];document.getElementById(sc+'CSYearTo').value=pts[1];}
+  else{document.getElementById(sc+'CSYearFrom').value=src.year||'';document.getElementById(sc+'CSYearTo').value=src.year||'';}
+  document.getElementById(sc+'CSYearFrom').focus();
+  toast('✏️ Copiado para o formulário — edite e clique + Add!');
 }
+function editCompatSet(sc,idx){renderCompatSets(sc,idx);}
+function saveCompatEdit(sc,idx){
+  var brand=document.getElementById(sc+'EditBrand'+idx).value.trim();
+  var model=document.getElementById(sc+'EditModel'+idx).value.trim();
+  var yf=document.getElementById(sc+'EditYearFrom'+idx).value.trim();
+  var yt=document.getElementById(sc+'EditYearTo'+idx).value.trim();
+  var year='';
+  if(yf&&yt&&yf!==yt)year=yf+'-'+yt;
+  else if(yf)year=yt?yf+'-'+yt:yf;
+  else if(yt)year=yt;
+  compatSets[sc][idx]={brand:brand,model:model,year:year};
+  renderCompatSets(sc);
+  toast('✅ Compatibilidade atualizada!');
+}
+function cancelCompatEdit(sc){renderCompatSets(sc);}
+function renderCompatSets(sc,editIdx){
+  var el=document.getElementById(sc+'CompatList');
+  if(!compatSets[sc].length){el.innerHTML='<div class="compat-empty">Nenhuma compatibilidade adicionada</div>';return;}
+  var out='';
+  compatSets[sc].forEach(function(cs,i){
+    if(i===editIdx){
+      var yf='',yt='';
+      if(cs.year&&cs.year.indexOf('-')>0){var pts=cs.year.split('-');yf=pts[0];yt=pts[1];}
+      else{yf=cs.year||'';yt=cs.year||'';}
+      out+='<div class="compat-item editing">';
+      out+='<div style="font-size:11px;color:var(--muted);margin-bottom:6px;font-weight:600">✏️ Editando...</div>';
+      out+='<div class="compat-edit-row">';
+      out+='<div><label style="font-size:10px;color:var(--muted);font-weight:600;display:block;margin-bottom:3px">Marca</label><input id="'+sc+'EditBrand'+i+'" value="'+(cs.brand||'')+'"></div>';
+      out+='<div><label style="font-size:10px;color:var(--muted);font-weight:600;display:block;margin-bottom:3px">Modelo</label><input id="'+sc+'EditModel'+i+'" value="'+(cs.model||'')+'"></div>';
+      out+='<div><label style="font-size:10px;color:var(--muted);font-weight:600;display:block;margin-bottom:3px">Ano Ini.</label><input id="'+sc+'EditYearFrom'+i+'" value="'+yf+'"></div>';
+      out+='<div><label style="font-size:10px;color:var(--muted);font-weight:600;display:block;margin-bottom:3px">Ano Fim</label><input id="'+sc+'EditYearTo'+i+'" value="'+yt+'"></div>';
+      out+='<button class="btn-ci-save" onclick="saveCompatEdit(\''+sc+'\','+i+')">&#10004; Salvar</button>';
+      out+='<button class="btn-ci-cancel" onclick="cancelCompatEdit(\''+sc+'\')">&#10005;</button>';
+      out+='</div></div>';
+    }else{
+      var info='';
+      if(cs.brand)info+='<span class="ci2-brand">'+cs.brand+'</span>';
+      if(cs.model)info+=' · <span class="ci2-model">'+cs.model+'</span>';
+      if(cs.year)info+=' · <span class="ci2-year">'+cs.year+'</span>';
+      out+='<div class="compat-item"><div class="ci2-info">'+info+'</div>';
+      out+='<button class="btn-ci-dup" title="Copiar para formulário" onclick="dupCompatSet(\''+sc+'\','+i+')">&#128203;</button>';
+      out+='<button class="btn-ci-edit" title="Editar linha" onclick="editCompatSet(\''+sc+'\','+i+')">&#9998;</button>';
+      out+='<button class="btn-ci-del" title="Remover" onclick="removeCompatSet(\''+sc+'\','+i+')">&#10005;</button>';
+      out+='</div>';
+    }
+  });
+  el.innerHTML=out;
+}
+
 function setCompatSets(sc,arr){compatSets[sc]=Array.isArray(arr)?arr.slice():[];renderCompatSets(sc);}
 
 function buildSelects(){
@@ -748,11 +839,17 @@ function openDetail(cod){
   }
   document.getElementById('detailInfo').innerHTML=(p.cat?'<div class="detail-cat">'+p.cat+'</div>':'')+'<div class="detail-cod"># '+p.cod+'</div><div class="detail-name">'+p.name+'</div>'+priceHtml+(p.desc?'<div class="detail-desc">'+p.desc+'</div>':'')+optsHtml+'<button class="detail-add-btn" onclick="addFromDetail(\''+p.cod+'\')">🛒 Adicionar ao Carrinho</button>';
   var wrap=document.getElementById('compatTableWrap'),cs=p.compats||[];
-  if(!cs.length){wrap.innerHTML='<div class="no-compat">Este produto não possui lista de compatibilidade cadastrada.</div>';return;}
+  document.getElementById('compatToggleBtn').style.display='none';
+  document.getElementById('compatCollapsible').classList.remove('open');
+  if(!cs.length){wrap.innerHTML='<div class="no-compat">Este produto não possui lista de compatibilidade cadastrada.</div>';renderRelated(cod);return;}
   var rows=[];
   cs.forEach(function(c){if(c.year&&c.year.indexOf('-')>0){var pts=c.year.split('-'),yf=parseInt(pts[0]),yt=parseInt(pts[1]);for(var y=yf;y<=yt;y++)rows.push({brand:c.brand,model:c.model,year:y});}else{rows.push({brand:c.brand,model:c.model,year:c.year||'—'});}});
   rows.sort(function(a,b){if((a.brand||'')>(b.brand||''))return 1;if((a.brand||'')<(b.brand||''))return -1;if((a.model||'')>(b.model||''))return 1;if((a.model||'')<(b.model||''))return -1;return (+b.year||0)-(+a.year||0);});
   wrap.innerHTML='<table class="compat-table"><thead><tr><th>Marca</th><th>Modelo</th><th>Ano</th></tr></thead><tbody>'+rows.map(function(r){return '<tr><td>'+(r.brand||'—')+'</td><td>'+(r.model||'—')+'</td><td class="compat-year">'+r.year+'</td></tr>';}).join('')+'</tbody></table>';
+  var btn=document.getElementById('compatToggleBtn');
+  btn.style.display='flex';
+  btn.innerHTML='🏍️ Ver Compatibilidade ('+rows.length+' motos) <span id="compatToggleArrow">▾</span>';
+  renderRelated(cod);
 }
 function setDetailPhoto(idx){var p=products.find(function(x){return x.cod===detailCod;});if(!p)return;document.getElementById('galleryMainImg').src=(p.photos||[])[idx];document.querySelectorAll('#galleryThumbs .g-thumb').forEach(function(t,i){t.classList.toggle('active',i===idx);});}
 function toggleDetailOpt(gname,val,btn){btn.closest('.opts-pills').querySelectorAll('.opt-pill').forEach(function(b){b.classList.remove('selected');});btn.classList.add('selected');detailOptSel[gname]=val;}
@@ -826,37 +923,32 @@ function sendWA(){
 }
 
 function switchTab(id,btn){document.querySelectorAll('.atab-panel').forEach(function(p){p.classList.remove('on');});document.querySelectorAll('.atab').forEach(function(b){b.classList.remove('on');});document.getElementById(id).classList.add('on');btn.classList.add('on');if(id==='tabMechs')renderMechTable();}
-function checkAdmin(){if(window.location.hash==='#admin')showAdmin();}
-function copyCompatFrom(sc){
-  var sel=document.getElementById(sc+'CopyCompatSel');
-  var cod=sel.value;if(!cod){toast('Selecione um produto para copiar!');return;}
-  var p=products.find(function(x){return x.cod===cod;});
-  if(!p||!(p.compats||[]).length){toast('Produto selecionado não tem compatibilidades!');return;}
-  var merged=compatSets[sc].slice();
-  p.compats.forEach(function(c){
-    var exists=merged.some(function(m){return m.brand===c.brand&&m.model===c.model&&m.year===c.year;});
-    if(!exists)merged.push({brand:c.brand,model:c.model,year:c.year});
-  });
-  setCompatSets(sc,merged);
-  sel.value='';
-  toast('✅ '+p.compats.length+' compatibilidade(s) copiadas de "'+p.name.substring(0,20)+'"!');
+var ADMIN_PASS='mxcenter2026';
+var _adminAuth=sessionStorage.getItem('mxAdminAuth')||'';
+function requestAdminLogin(){
+  if(_adminAuth===ADMIN_PASS){showAdmin();return;}
+  document.getElementById('adminLoginModal').classList.add('on');
+  document.getElementById('adminPassInput').value='';
+  document.getElementById('adminLoginErr').textContent='';
+  setTimeout(function(){document.getElementById('adminPassInput').focus();},80);
 }
-function fillCompatSelectors(){
-  ['p','e'].forEach(function(sc){
-    var sel=document.getElementById(sc+'CopyCompatSel');if(!sel)return;
-    var cur=sel.value;
-    sel.innerHTML='<option value="">— Selecione um produto —</option>';
-    products.forEach(function(p){
-      if(!(p.compats||[]).length)return;
-      var o=document.createElement('option');o.value=p.cod;o.textContent=p.cod+' — '+p.name.substring(0,30)+' ('+p.compats.length+' motos)';sel.appendChild(o);
-    });
-    sel.value=cur;
-  });
+function closeAdminLogin(){
+  document.getElementById('adminLoginModal').classList.remove('on');
+  if(_adminAuth!==ADMIN_PASS)window.location.hash='';
 }
+function doAdminLogin(){
+  var pw=document.getElementById('adminPassInput').value;
+  if(pw===ADMIN_PASS){_adminAuth=pw;sessionStorage.setItem('mxAdminAuth',pw);document.getElementById('adminLoginModal').classList.remove('on');showAdmin();}
+  else{document.getElementById('adminLoginErr').textContent='Senha incorreta.';document.getElementById('adminPassInput').value='';document.getElementById('adminPassInput').focus();}
+}
+function checkAdmin(){if(window.location.hash==='#admin')requestAdminLogin();}
 function showAdmin(){document.getElementById('adminPanel').style.display='block';showPage(null);renderAdminTable();fillCompatSelectors();}
 function hideAdmin(){document.getElementById('adminPanel').style.display='none';showPage('pgLoja');}
-window.addEventListener('hashchange',function(){if(window.location.hash==='#admin')showAdmin();else hideAdmin();});
-document.addEventListener('keydown',function(e){if(e.ctrlKey&&e.shiftKey&&e.key==='A'){var ap=document.getElementById('adminPanel');if(!ap.style.display||ap.style.display==='none')showAdmin();else{window.location.hash='';hideAdmin();}}});
+window.addEventListener('hashchange',function(){if(window.location.hash==='#admin')requestAdminLogin();else hideAdmin();});
+document.addEventListener('keydown',function(e){
+  if(e.ctrlKey&&e.shiftKey&&e.key==='A'){var ap=document.getElementById('adminPanel');if(!ap.style.display||ap.style.display==='none')requestAdminLogin();else{window.location.hash='';hideAdmin();}}
+  if(e.key==='Enter'&&document.getElementById('adminLoginModal').classList.contains('on'))doAdminLogin();
+});
 function showPage(id){document.querySelectorAll('.page').forEach(function(p){p.classList.remove('on');});if(id)document.getElementById(id).classList.add('on');}
 
 function showCustomCat(s){document.getElementById(s+'CatCustomWrap').style.display=document.getElementById(s+'Cat').value==='__c__'?'block':'none';}
@@ -899,8 +991,8 @@ function openEditProd(cod){
   document.getElementById('ePriceMech').value=p.priceMech||'';document.getElementById('eDesc').value=p.desc||'';
   setCat('e',p.cat||'');photosState.e=[];loadPhotosIntoState('e',p.photos||[]);
   setOptGroups('e',p.options||[]);setCompatSets('e',p.compats||[]);
-  document.getElementById('editProdModal').classList.add('on');
   fillCompatSelectors();
+  document.getElementById('editProdModal').classList.add('on');
 }
 function closeEditProd(){document.getElementById('editProdModal').classList.remove('on');}
 document.getElementById('editProdModal').addEventListener('click',function(e){if(e.target===this)closeEditProd();});
@@ -913,32 +1005,113 @@ async function saveEditProd(){
   var photos=getPhotos('e'),options=JSON.parse(JSON.stringify(optGroups.e)),compats=compatSets.e.slice();
   var updated={cod:newCod,name:name,cat:cat,price:price,priceMech:isNaN(priceMech)?price:priceMech,photos:photos,options:options,compats:compats,desc:desc};
   var btn=document.getElementById('btnSaveEditProd');btn.textContent='⏳ Salvando...';btn.disabled=true;
-  // Clone mode: insert as new product
   if(origCod==='__clone__'){
     try{products.push(updated);await saveAll();renderProducts(products);buildSelects();renderAdminTable();closeEditProd();toast('✅ Clone "'+name+'" cadastrado!');}
     catch(e){products.pop();toast('❌ Erro: '+e.message);}
-  } else {
+  }else{
     var idx=products.findIndex(function(p){return p.cod===origCod;}),old=products[idx];products[idx]=updated;
     try{await saveAll();renderProducts(products);buildSelects();renderAdminTable();closeEditProd();toast('✅ "'+name+'" atualizado!');}
     catch(e){products[idx]=old;toast('❌ Erro: '+e.message);}
   }
   btn.textContent='💾 Salvar';btn.disabled=false;
 }
+
+function toggleCompat(){
+  var box=document.getElementById('compatCollapsible');
+  var arrow=document.getElementById('compatToggleArrow');
+  box.classList.toggle('open');
+  arrow.textContent=box.classList.contains('open')?'▴':'▾';
+}
 function cloneProduct(cod){
   var p=products.find(function(x){return x.cod===cod;});if(!p)return;
-  var clone=JSON.parse(JSON.stringify(p));
+  var cl=JSON.parse(JSON.stringify(p));
   document.getElementById('eCodOrig').value='__clone__';
   document.getElementById('eCod').value='';
-  document.getElementById('eName').value=clone.name+' (cópia)';
-  document.getElementById('ePrice').value=clone.price;
-  document.getElementById('ePriceMech').value=clone.priceMech||'';
-  document.getElementById('eDesc').value=clone.desc||'';
-  setCat('e',clone.cat||'');
-  photosState.e=[];loadPhotosIntoState('e',clone.photos||[]);
-  setOptGroups('e',clone.options||[]);setCompatSets('e',clone.compats||[]);
-  document.getElementById('editProdModal').classList.add('on');
+  document.getElementById('eName').value=cl.name+' (cópia)';
+  document.getElementById('ePrice').value=cl.price;
+  document.getElementById('ePriceMech').value=cl.priceMech||'';
+  document.getElementById('eDesc').value=cl.desc||'';
+  setCat('e',cl.cat||'');
+  photosState.e=[];loadPhotosIntoState('e',cl.photos||[]);
+  setOptGroups('e',cl.options||[]);setCompatSets('e',cl.compats||[]);
   fillCompatSelectors();
-  toast('📋 Clone aberto — defina um código novo!');
+  document.getElementById('editProdModal').classList.add('on');
+  toast('📋 Clone aberto — defina um novo código!');
+}
+function fillCompatSelectors(){
+  ['p','e'].forEach(function(sc){
+    var sel=document.getElementById(sc+'CopyCompatSel');if(!sel)return;
+    var cur=sel.value;
+    sel.innerHTML='<option value="">— Selecione um produto —</option>';
+    products.forEach(function(p){
+      if(!(p.compats||[]).length)return;
+      var o=document.createElement('option');o.value=p.cod;
+      o.textContent=p.cod+' — '+p.name.substring(0,28)+' ('+p.compats.length+' motos)';
+      sel.appendChild(o);
+    });
+    sel.value=cur;
+  });
+}
+function copyCompatFrom(sc){
+  var sel=document.getElementById(sc+'CopyCompatSel');var cod=sel.value;
+  if(!cod){toast('Selecione um produto para copiar!');return;}
+  var p=products.find(function(x){return x.cod===cod;});
+  if(!p||!(p.compats||[]).length){toast('Produto não tem compatibilidades!');return;}
+  var merged=compatSets[sc].slice();
+  p.compats.forEach(function(c){
+    var ex=merged.some(function(m){return m.brand===c.brand&&m.model===c.model&&m.year===c.year;});
+    if(!ex)merged.push({brand:c.brand,model:c.model,year:c.year});
+  });
+  setCompatSets(sc,merged);sel.value='';
+  toast('✅ '+p.compats.length+' compat(s) copiadas de "'+p.name.substring(0,20)+'"!');
+}
+function renderRelated(cod){
+  var p=products.find(function(x){return x.cod===cod;});
+  var section=document.getElementById('relatedSection');
+  var grid=document.getElementById('relatedGrid');
+  if(!p){section.style.display='none';return;}
+  var pKeys={};
+  (p.compats||[]).forEach(function(c){
+    if(c.brand||c.model)pKeys[(c.brand||'')+'|'+(c.model||'')]=true;
+  });
+  var scored=[];
+  products.forEach(function(q){
+    if(q.cod===cod)return;
+    var score=0;
+    if(q.cat&&q.cat===p.cat)score+=3;
+    (q.compats||[]).forEach(function(c){
+      if(pKeys[(c.brand||'')+'|'+(c.model||'')])score+=1;
+    });
+    if(score>0)scored.push({prod:q,score:score});
+  });
+  scored.sort(function(a,b){return b.score-a.score;});
+  var top=scored.slice(0,6);
+  if(!top.length){section.style.display='none';return;}
+  section.style.display='block';
+  grid.innerHTML='';
+  top.forEach(function(item){
+    var q=item.prod;
+    var icon=CAT_ICONS[q.cat]||'⚙️';
+    var mainPhoto=(q.photos||[])[0]||'';
+    var priceHtml=mechUser
+      ?'<div class="card-price-orig">R$ '+fmt(q.price)+'</div><div class="card-price-mech">🔧 R$ '+fmt(q.priceMech||q.price)+'</div>'
+      :'<div class="card-price">R$ '+fmt(q.price)+'</div>';
+    var card=document.createElement('div');
+    card.className='card';
+    var imgHtml=mainPhoto?'<img src="'+mainPhoto+'" alt="" loading="lazy">':('<span class="em">'+icon+'</span>');
+    var badge=q.cat?'<span class="cbadge">'+q.cat+'</span>':'';
+    card.innerHTML='<div class="card-img">'+imgHtml+badge+'</div>'
+      +'<div class="card-body"><div class="card-cod"># '+q.cod+'</div>'
+      +'<div class="card-name">'+q.name+'</div>'+priceHtml
+      +'<div class="card-footer"><button class="btn-add">+ Adicionar</button><button class="btn-detail">🔍</button></div></div>';
+    (function(qcod){
+      card.querySelector('.card-img').addEventListener('click',function(){openDetail(qcod);});
+      card.querySelector('.card-name').addEventListener('click',function(){openDetail(qcod);});
+      card.querySelector('.btn-detail').addEventListener('click',function(){openDetail(qcod);});
+      card.querySelector('.btn-add').addEventListener('click',function(e){handleAddCard(e,qcod);});
+    })(q.cod);
+    grid.appendChild(card);
+  });
 }
 function renderAdminTable(){
   var tbody=document.getElementById('atBody');
@@ -947,7 +1120,7 @@ function renderAdminTable(){
     var icon=CAT_ICONS[p.cat]||'⚙️',ph=(p.photos||[])[0]||'';
     var th=ph?'<img src="'+ph+'" style="width:38px;height:38px;object-fit:cover;border-radius:5px">':'<div style="width:38px;height:38px;background:linear-gradient(135deg,#1a1a1a,#333);border-radius:5px;display:flex;align-items:center;justify-content:center;font-size:16px">'+icon+'</div>';
     var optsStr=(p.options||[]).length?p.options.map(function(g){return g.name;}).join(', '):'—';
-    return '<tr><td>'+th+'</td><td><code style="font-size:11px;background:var(--surface2);padding:2px 6px;border-radius:3px">'+p.cod+'</code></td><td style="max-width:140px">'+p.name+'</td><td>'+(p.cat||'—')+'</td><td style="font-size:12px">'+(p.photos||[]).length+'/4</td><td style="font-size:12px;color:var(--muted);max-width:120px">'+optsStr+'</td><td style="font-size:12px;color:var(--muted)">'+(p.compats||[]).length+' motos</td><td style="color:var(--red);font-weight:700;white-space:nowrap">R$ '+fmt(p.price)+'</td><td style="color:#e5a800;font-weight:700;white-space:nowrap">R$ '+fmt(p.priceMech||0)+'</td><td><div class="td-act"><button class="btn-clone" title="Clonar produto" onclick="cloneProduct(\''+p.cod+'\')" >📋</button><button class="btn-edit" onclick="openEditProd(\''+p.cod+'\')">✏️</button><button class="btn-del" onclick="delProduct(\''+p.cod+'\')">✕</button></div></td></tr>';
+    return '<tr><td>'+th+'</td><td><code style="font-size:11px;background:var(--surface2);padding:2px 6px;border-radius:3px">'+p.cod+'</code></td><td style="max-width:140px">'+p.name+'</td><td>'+(p.cat||'—')+'</td><td style="font-size:12px">'+(p.photos||[]).length+'/4</td><td style="font-size:12px;color:var(--muted);max-width:120px">'+optsStr+'</td><td style="font-size:12px;color:var(--muted)">'+(p.compats||[]).length+' motos</td><td style="color:var(--red);font-weight:700;white-space:nowrap">R$ '+fmt(p.price)+'</td><td style="color:#e5a800;font-weight:700;white-space:nowrap">R$ '+fmt(p.priceMech||0)+'</td><td><div class="td-act"><button class="btn-clone" title="Clonar" onclick="cloneProduct(\''+ p.cod +'\')">&#128203;</button><button class="btn-edit" onclick="openEditProd(\''+p.cod+'\')">✏️</button><button class="btn-del" onclick="delProduct(\''+p.cod+'\')">✕</button></div></td></tr>';
   }).join('');
 }
 async function addMechanic(){
