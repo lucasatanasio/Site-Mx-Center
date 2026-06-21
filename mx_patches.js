@@ -45,6 +45,22 @@
 .disclaimer-text { font-size: 12.5px; color: var(--muted); line-height: 1.65; }
 .disclaimer-text strong { color: var(--text); font-weight: 700; }
 
+/* Sem estoque */
+.out-of-stock-badge {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,.55);
+  display: flex; align-items: center; justify-content: center; z-index: 3;
+}
+.out-of-stock-badge span {
+  background: #1a1a1a; border: 2px solid #f59e0b; color: #f59e0b;
+  font-family: var(--fd); font-size: 13px; font-weight: 700;
+  padding: 5px 14px; border-radius: 5px;
+  text-transform: uppercase; letter-spacing: .5px;
+}
+.btn-add:disabled, .detail-add-btn:disabled {
+  background: #555 !important; cursor: not-allowed; opacity: .65;
+}
+
 /* Paginação */
 .pagination {
   display: flex; align-items: center; justify-content: center;
@@ -194,9 +210,15 @@ function _makeCard(p) {
   var mainPhoto = (p.photos || [])[0] || '';
   var hasOpts   = p.options && p.options.length > 0;
   var mechUser  = window.mechUser;
+  var outOfStock = !!p.outOfStock;
   var priceHtml = mechUser
     ? '<div class="card-price-orig">R$ ' + fmt(p.price) + '</div><div class="card-price-mech">🔧 R$ ' + fmt(p.priceMech || p.price) + '</div>'
     : '<div class="card-price">R$ ' + fmt(p.price) + '</div>';
+
+  var osBadge  = outOfStock ? '<div class="out-of-stock-badge"><span>Sem estoque</span></div>' : '';
+  var addBtn   = outOfStock
+    ? '<button class="btn-add" disabled>Sem estoque</button>'
+    : '<button class="btn-add" onclick="handleAddCard(event,\'' + p.cod + '\')">+ Adicionar</button>';
 
   var card = document.createElement('div');
   card.className = 'card';
@@ -204,14 +226,15 @@ function _makeCard(p) {
     '<div class="card-img">' +
       (mainPhoto ? '<img src="' + mainPhoto + '" alt="' + p.name + '" loading="lazy">' : '<span class="em">' + icon + '</span>') +
       (p.cat ? '<span class="cbadge">' + p.cat + '</span>' : '') +
-      (hasOpts ? '<span class="has-opts-badge">Opções ▾</span>' : '') +
+      (hasOpts && !outOfStock ? '<span class="has-opts-badge">Opções ▾</span>' : '') +
+      osBadge +
     '</div>' +
     '<div class="card-body">' +
       '<div class="card-cod"># ' + p.cod + '</div>' +
       '<div class="card-name">' + p.name + '</div>' +
       priceHtml +
       '<div class="card-footer">' +
-        '<button class="btn-add" onclick="handleAddCard(event,\'' + p.cod + '\')">+ Adicionar</button>' +
+        addBtn +
         '<button class="btn-detail" title="Ver detalhes" onclick="openDetail(\'' + p.cod + '\')">🔍</button>' +
       '</div>' +
     '</div>';
@@ -283,6 +306,11 @@ window.openDetail = function(cod, _pushState) {
   }
 
   // Botão compartilhar
+  var outOfStock = !!p.outOfStock;
+  var addBtnHtml = outOfStock
+    ? '<button class="detail-add-btn" disabled>📦 Produto sem estoque</button>'
+    : '<button class="detail-add-btn" onclick="addFromDetail(\'' + p.cod + '\')">🛒 Adicionar ao Carrinho</button>';
+
   var shareBtn =
     '<button class="btn-share" onclick="shareProduct()">' +
       '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">' +
@@ -298,7 +326,7 @@ window.openDetail = function(cod, _pushState) {
     priceHtml +
     (p.desc ? '<div class="detail-desc">' + p.desc + '</div>' : '') +
     optsHtml +
-    '<button class="detail-add-btn" onclick="addFromDetail(\'' + p.cod + '\')">🛒 Adicionar ao Carrinho</button>' +
+    addBtnHtml +
     shareBtn;
 
   // Disclaimer — injeta após o botão Voltar original
