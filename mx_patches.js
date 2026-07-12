@@ -98,7 +98,10 @@ var _pgnPerPage = 30;
 
 // ─── 1. renderProducts — com paginação ────────────────────────────────────
 window.renderProducts = function(list) {
-  _pgnList = list;
+  // Filtra exclusivos de oficina para quem não está logado
+  _pgnList = (list||[]).filter(function(p) {
+    return !(p.visibility === 'mech' && !window.mechUser);
+  });
   _pgnPage = 1;
   _renderPage();
 };
@@ -206,19 +209,38 @@ function _pageNumbers(total, current) {
 }
 
 function _makeCard(p) {
-  var icon      = (window.CAT_ICONS && CAT_ICONS[p.cat]) || '⚙️';
-  var mainPhoto = (p.photos || [])[0] || '';
-  var hasOpts   = p.options && p.options.length > 0;
-  var mechUser  = window.mechUser;
+  var icon       = (window.CAT_ICONS && CAT_ICONS[p.cat]) || '⚙️';
+  var mainPhoto  = (p.photos || [])[0] || '';
+  var hasOpts    = p.options && p.options.length > 0;
+  var hasCF      = p.customFields && p.customFields.length > 0;
+  var hasWS      = p.wholesaleTiers && p.wholesaleTiers.length > 0;
   var outOfStock = !!p.outOfStock;
-  var priceHtml = mechUser
-    ? '<div class="card-price-orig">R$ ' + fmt(p.price) + '</div><div class="card-price-mech">🔧 R$ ' + fmt(p.priceMech || p.price) + '</div>'
-    : '<div class="card-price">R$ ' + fmt(p.price) + '</div>';
 
-  var osBadge  = outOfStock ? '<div class="out-of-stock-badge"><span>Sem estoque</span></div>' : '';
-  var addBtn   = outOfStock
+  // Usa helper do Index se disponível, senão fallback
+  var priceHtml = window.getPriceHtml
+    ? window.getPriceHtml(p, 'card')
+    : (window.mechUser
+        ? '<div class="card-price-orig">R$ ' + fmt(p.price) + '</div><div class="card-price-mech">🔧 R$ ' + fmt(p.priceMech || p.price) + '</div>'
+        : '<div class="card-price">R$ ' + fmt(p.price) + '</div>');
+
+  var osBadge = outOfStock ? '<div class="out-of-stock-badge"><span>Sem estoque</span></div>' : '';
+  var addBtn  = outOfStock
     ? '<button class="btn-add" disabled>Sem estoque</button>'
     : '<button class="btn-add" onclick="handleAddCard(event,\'' + p.cod + '\')">+ Adicionar</button>';
+
+  // Só "Opções" fica na foto; Dados e Atacado ficam como chips no card-body
+  var imgBadge = (hasOpts && !outOfStock) ? '<span class="has-opts-badge">Opções ▾</span>' : '';
+  var chips = '';
+  if (hasCF || hasWS) {
+    chips = '<div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:8px">';
+    if (hasCF) chips += '<span style="background:rgba(168,85,247,.15);color:#a855f7;border:1px solid rgba(168,85,247,.35);font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px">📋 Preencher dados</span>';
+    if (hasWS) chips += '<span style="background:rgba(14,116,144,.15);color:#0ea5e9;border:1px solid rgba(14,116,144,.35);font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px">📦 Preço atacado</span>';
+    chips += '</div>';
+  }
+
+  var mechOnlyBadge = (p.visibility === 'mech')
+    ? '<span style="position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,.75);color:#4ade80;font-size:10px;font-weight:700;padding:2px 7px;border-radius:3px;z-index:3;border:1px solid rgba(74,222,128,.4)">🔧 Exclusivo</span>'
+    : '';
 
   var card = document.createElement('div');
   card.className = 'card';
@@ -226,15 +248,13 @@ function _makeCard(p) {
     '<div class="card-img">' +
       (mainPhoto ? '<img src="' + mainPhoto + '" alt="' + p.name + '" loading="lazy">' : '<span class="em">' + icon + '</span>') +
       (p.cat ? '<span class="cbadge">' + p.cat + '</span>' : '') +
-      (hasOpts && !outOfStock ? '<span class="has-opts-badge">Opções ▾</span>' : '') +
-      osBadge +
+      imgBadge + osBadge + mechOnlyBadge +
     '</div>' +
     '<div class="card-body">' +
       '<div class="card-cod"># ' + p.cod + '</div>' +
       '<div class="card-name">' + p.name + '</div>' +
-      priceHtml +
-      '<div class="card-footer">' +
-        addBtn +
+      chips + priceHtml +
+      '<div class="card-footer">' + addBtn +
         '<button class="btn-detail" title="Ver detalhes" onclick="openDetail(\'' + p.cod + '\')">🔍</button>' +
       '</div>' +
     '</div>';
@@ -279,11 +299,14 @@ window.openDetail = function(cod, _pushState) {
     thumbEl.innerHTML = '';
   }
 
-  // Preço
-  var mechUser  = window.mechUser;
-  var priceHtml = mechUser
-    ? '<div class="detail-price-orig">R$ ' + fmt(p.price) + '</div><div class="detail-price-mech">🔧 R$ ' + fmt(p.priceMech || p.price) + '</div>'
-    : '<div class="detail-price">R$ ' + fmt(p.price) + '</div>';
+  // Preço — usa helpers do Index se disponíveis
+  var priceHtml = window.getPriceHtml
+    ? window.getPriceHtml(p, 'detail')
+    : (window.mechUser
+        ? '<div class="detail-price-orig">R$ ' + fmt(p.price) + '</div><div class="detail-price-mech">🔧 R$ ' + fmt(p.priceMech || p.price) + '</div>'
+        : '<div class="detail-price">R$ ' + fmt(p.price) + '</div>');
+  // Tabela de preços por atacado
+  var wsHtml = window.getWholesaleHtml ? window.getWholesaleHtml(p) : '';
 
   // Opções
   var optsHtml = '';
@@ -323,7 +346,7 @@ window.openDetail = function(cod, _pushState) {
     (p.cat ? '<div class="detail-cat">' + p.cat + '</div>' : '') +
     '<div class="detail-cod"># ' + p.cod + '</div>' +
     '<div class="detail-name">' + p.name + '</div>' +
-    priceHtml +
+    priceHtml + wsHtml +
     (p.desc ? '<div class="detail-desc">' + p.desc + '</div>' : '') +
     optsHtml +
     addBtnHtml +
